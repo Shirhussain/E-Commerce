@@ -4,16 +4,20 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from . models import Settings, ContactMessage
+from product.models import Category, Product
 from . forms import ContactForm
 
 
 def index(request):
     setting = Settings.objects.get(pk=1)
+    category = Category.objects.all()
+
     page = "index"
 
     context = {
         'setting': setting,
-        'page': page
+        'page': page,
+        'category': category
     }
     return render(request,'index.html',context)
 
@@ -38,6 +42,7 @@ def contact_us(request):
             data.save()
             messages.success(request, "your message has been submitted we will get you back soon ")
             return redirect('home:contact-us')
+            # return HttpResponseRedirect(reverse('home:contact-us'))
 
     setting = Settings.objects.get(pk=1)
     form = ContactForm()
@@ -46,3 +51,7 @@ def contact_us(request):
         'form': form
     }
     return render(request, 'contact.html', context)
+
+def category_product(request, id, slug):
+    products = Product.objects.filter(category_id=id)
+    return HttpResponse(products)

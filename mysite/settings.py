@@ -35,7 +35,9 @@ INSTALLED_APPS = [
     # for installation ckeditor follow this site https://overiq.com/django-1-10/integrating-ckeditor-in-django/
     'ckeditor',
     'ckeditor_uploader',
-    
+    # mptt is for category and subcategory for recursive use or 
+    # MPTT is a technique for storing hierarchical data in a database. 
+    'mptt',
     # myapps
     'product.apps.ProductConfig',
     'home.apps.HomeConfig',
