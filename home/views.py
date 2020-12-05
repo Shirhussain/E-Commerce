@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import json 
 
 from . models import Settings, ContactMessage
 from product.models import Category, Product
@@ -92,3 +93,18 @@ def search(request):
     return HttpResponseRedirect('/')
 
 
+def search_auto(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        products = Product.objects.filter(title__icontains=q)
+        results = []
+        for product in products:
+            product_json = {}
+            # product_json = product.title + "," + product.description
+            product_json = product.title 
+            results.append(product_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)

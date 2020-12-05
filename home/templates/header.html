@@ -45,6 +45,30 @@
 						</a>
 					</div>
 					<!-- /Logo -->
+					
+					<!-- JQuery autocomplete  -->
+					<script>
+
+						$(function() {
+							// in input id we have query so that's why i put query here
+							$("#query").autocomplete({
+								// url of auto search
+							source: "{% url 'home:search-auto' %}",
+							select: function (event, ui) { //item selected
+								AutoCompleteSelectHandler(event, ui)
+							},
+							minLength: 2,
+							});
+						});
+					
+						function AutoCompleteSelectHandler(event, ui)
+						{
+							var selectedObj = ui.item;
+						}
+					
+					</script>
+
+					<!-- /JQuery autocomplete  -->
 
 					<!-- Search -->
 					<div class="header-search">
