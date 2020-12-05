@@ -5,8 +5,9 @@ from django.contrib import messages
 import json 
 
 from . models import Settings, ContactMessage
-from product.models import Category, Product
+from product.models import Category, Product, Images, Comment
 from . forms import ContactForm, SearchForm
+from product.forms import CommentForm
 
 
 def index(request):
@@ -108,3 +109,40 @@ def search_auto(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+
+def product_detail(request, id, slug):
+    category = Category.objects.all()
+    product = Product.objects.get(pk=id)
+    images = Images.objects.filter(product_id = id)
+    comments = Comment.objects.filter(product_id = id, status=True)
+
+    context = {
+        'product': product,
+        'images': images, 
+        'category': category,
+        'comments': comments
+    }
+    return render(request, "product_detail.html", context)
+
+
+def add_comment(request, id):
+    url = request.META.get('HTTP_REFERER') # refere to the last or current url
+    # some time print is not working so you need to return HttpResponse instead 
+    # return HttpResponse(url)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            data = Comment()
+            data.subject = form.cleaned_data['subject']
+            data.comment = form.cleaned_data['comment']
+            data.rate = form.cleaned_data['rate']
+            data.ip = request.META.get('REMOTE_ADDR')
+            data.product_id = id
+            data.user_id = request.user.id 
+            data.save()
+            messages.success(request, "your review hass been submitted tnx for your intrest")
+            return HttpResponseRedirect(url)
+    
+    return HttpResponseRedirect(url)
+
