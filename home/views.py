@@ -5,19 +5,25 @@ from django.contrib import messages
 
 from . models import Settings, ContactMessage
 from product.models import Category, Product
-from . forms import ContactForm
+from . forms import ContactForm, SearchForm
 
 
 def index(request):
     setting = Settings.objects.get(pk=1)
     category = Category.objects.all()
+    products_slider = Product.objects.all().order_by('id')[:4] #first 4 product 
+    products_latest = Product.objects.all().order_by('-id')[:4] # latest
+    products_picked = Product.objects.all().order_by('?')[:4] # random 
 
     page = "index"
 
     context = {
         'setting': setting,
         'page': page,
-        'category': category
+        'category': category,
+        'products_slider': products_slider,
+        'products_latest': products_latest,
+        'products_picked': products_picked,
     }
     return render(request,'index.html',context)
 
@@ -54,4 +60,35 @@ def contact_us(request):
 
 def category_product(request, id, slug):
     products = Product.objects.filter(category_id=id)
-    return HttpResponse(products)
+    category = Category.objects.all()
+
+    context = {
+        'products': products,
+        'category': category
+    }
+    return render(request, "category_products.html", context)
+
+
+def search(request):
+    if request.method == 'POST': 
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            catid = form.cleaned_data['catid']
+
+            if catid == 0:
+                products = Product.objects.filter(title__icontains=query)
+            else:
+                products = Product.objects.filter(title__icontains=query, category_id=catid)
+
+            category = Category.objects.all()
+            context = {
+                'products': products,
+                'category': category,
+                'query': query
+                }
+            return render(request, 'search_products.html', context)
+    
+    return HttpResponseRedirect('/')
+
+

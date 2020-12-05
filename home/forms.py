@@ -12,3 +12,10 @@ class ContactForm(forms.ModelForm):
             'email': forms.TextInput(attrs={'class': 'input', 'placeholder': 'Email Address'}),
             'message': forms.Textarea(attrs={'class': 'input', 'placeholder': 'your message', 'roww': '5'})
         }
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=100)
+    catid = forms.IntegerField()
+
+    
