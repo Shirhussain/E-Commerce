@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # myapps
     'product.apps.ProductConfig',
     'home.apps.HomeConfig',
+    'order.apps.OrderConfig',
 
     # local
     'django.contrib.admin',
@@ -154,3 +155,9 @@ CKEDITOR_CONFIGS = {
 }
 
 ###################################
+
+
+# LOGOUT_REDIRECT_URL = 'account:login'  ---> this is i used when i used login url in acount
+LOGOUT_REDIRECT_URL = 'admin:index'
+LOGIN_URL = 'admin:index'
+LOGIN_REDIRECT_URL = 'home:index' 

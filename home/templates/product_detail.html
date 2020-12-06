@@ -170,7 +170,7 @@
                                     {% endif %}
 
                             {% if  product.variant != 'None'   %}
-                                <form action="/order/addtoshopcart/{{ product.id }}" method="post"  id="addchart-form">
+                                <form action="{% url 'order:add-to-card' product.id %}" method="post"  id="addchart-form">
                                     {% csrf_token %}
                                     <input type="hidden" name="variantid" id="variantid" value="{{ variant.id }}">
                                     <div id="SelectedProduct">

@@ -37,7 +37,7 @@
 								<div class="product-btns">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-									<a href="#" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+									<a href="{% url 'order:add-to-card' product.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
 								</div>
 							</div>
 						</div>
@@ -83,7 +83,7 @@
 								<div class="product-btns">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 									<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
-									<a href="#" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+									<a href="{% url 'order:add-to-card' product.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
 								</div>
 							</div>
 						</div>
