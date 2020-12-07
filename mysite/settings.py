@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'product.apps.ProductConfig',
     'home.apps.HomeConfig',
     'order.apps.OrderConfig',
+    'user.apps.UserConfig',
 
     # local
     'django.contrib.admin',
