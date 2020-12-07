@@ -5,6 +5,7 @@ from django.contrib import messages
 
 from product.models import Category
 from .models import Profile
+from .forms import SignUpForm
 
 def index(request):
     return HttpResponse("Hellow users")
@@ -35,14 +36,32 @@ def login_form(request):
 
 def signup_form(request):
     if request.method == "POST":
-        return HttpResponse(request)
-
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save() # signUp completed here but now i'm gonna login at the same time
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            # then I need to create a Profile for user as well--> one way is with signal and 
+            # another way is as follows 
+            data = Profile()
+            data.user_id = request.user.id 
+            data.image = "profile_image/avatar.png"
+            data.save()
+            messages.success(request, "your profile has been created successfully")
+            return HttpResponseRedirect(reverse("home:index"))
+        else:
+            messages.warning(request, form.errors)
+            return HttpResponseRedirect(reverse("user:signup"))
+    form = SignUpForm()
     category = Category.objects.all()
 
     context = {
-        'category': category
+        'category': category, 
+        'form': form
     }
-    return render(request, "logout.html", context)
+    return render(request, "signup.html", context)
 
 def logout_form(request):
     logout(request)
