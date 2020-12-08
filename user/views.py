@@ -1,8 +1,9 @@
-from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
-from django.contrib import messages
 
 from product.models import Category
 from .models import Profile
@@ -76,7 +77,7 @@ def logout_form(request):
     logout(request)
     return HttpResponseRedirect(reverse("home:index"))
 
-
+@login_required
 def user_update(request):
     if request.method == "POST":
         user_form = UserUpdateForm(request.POST, instance=request.user) # request user is user data
@@ -96,4 +97,24 @@ def user_update(request):
             'profile_form': profile_form
         }
         return render(request, "user_update.html", context)
-        
+
+@login_required
+def user_password(request):
+    if request.method == "POST":
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, "your password has been changed successfully")
+            return HttpResponseRedirect(reverse("user:profile"))
+        else:
+            messages.error(request, "Please correct the error below.<br>"+str(form.errors))
+            return HttpResponseRedirect(reverse("user:password"))
+    else:
+        category = Category.objects.all()
+        form = PasswordChangeForm(request.user)
+        context = {
+            'category': category,
+            'form': form
+        }
+        return render(request, "user_password.html", context)
