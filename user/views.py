@@ -6,7 +6,7 @@ from django.contrib import messages
 
 from product.models import Category
 from .models import Profile
-from .forms import SignUpForm
+from .forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
 
 @login_required
 def index(request):
@@ -18,7 +18,6 @@ def index(request):
         'profile': profile
     }
     return render(request, "user_profile.html", context)
-
 
 
 def login_form(request):
@@ -76,3 +75,25 @@ def signup_form(request):
 def logout_form(request):
     logout(request)
     return HttpResponseRedirect(reverse("home:index"))
+
+
+def user_update(request):
+    if request.method == "POST":
+        user_form = UserUpdateForm(request.POST, instance=request.user) # request user is user data
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "your account has been updated")
+            return HttpResponseRedirect(reverse("user:profile"))
+    else:
+        category = Category.objects.all()
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=request.user.profile)
+        context = {
+            'category': category,
+            'user_form': user_form,
+            'profile_form': profile_form
+        }
+        return render(request, "user_update.html", context)
+        
