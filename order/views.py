@@ -2,10 +2,12 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.utils.crypto import get_random_string
 
-from .models import ShopCard
-from .forms import ShopCardForm
-from product.models import Category
+from .models import ShopCard, Order, OrderProduct
+from .forms import ShopCardForm, OrderForm
+from product.models import Category, Product
+from user.models import Profile
 
 def index(request):
     return HttpResponse("order is working")
@@ -24,6 +26,8 @@ def add_to_card(request, id):
 
     if request.method == 'POST':
         form = ShopCardForm(request.POST)
+        # although by default we have the name of user, so it should be editable because maybe he/she
+        # would buy for his relative. so they need to edit the name and address.
         if form.is_valid():
             if control == 1: # update the shop cart
                 data = ShopCard.objects.get(product_id=id)
@@ -74,6 +78,64 @@ def delete_from_card(request, id):
     messages.success(request, "you have been deleted successfully product item from card")
     return HttpResponseRedirect(reverse('order:shop-card'))
 
+def order_product(request):
+    category = Category.objects.all()
+    shop_card = ShopCard.objects.filter(user_id = request.user.id)
+    profile = Profile.objects.get(user_id = request.user.id)
+    total = 0 
+    for rs in shop_card:
+        total += rs.product.price*rs.quantity
 
+    if request.method == "POST":
+        form = OrderForm(request.POST or None)
+        if form.is_valid():
+            # Here gos to Bank process, Send credit cart to bank and get result of payment info
+            # but here in this project i don't have her 
+            # ................................... bank ............ code ......
+            data = Order()
+            data.first_name = form.cleaned_data['first_name']
+            data.last_name = form.cleaned_data['last_name']
+            data.address = form.cleaned_data['address']
+            data.city = form.cleaned_data['city']
+            data.phone = form.cleaned_data['phone']
+            data.user_id = request.user.id 
+            data.total = total
+            data.ip = request.META.get('REMOTE_ADDR')
+            ordercode = get_random_string(5).upper()
+            data.code = ordercode
+            data.save()
 
-
+            # Move shopcart Item to Order product item
+            shop_card = ShopCard.objects.filter(user_id = request.user.id)
+            for rs in shop_card:
+                detail = OrderProduct()
+                detail.order_id = data.id 
+                detail.product_id = rs.product_id
+                detail.user_id = request.user.id
+                detail.quantity = rs.quantity 
+                detail.price = rs.product.price 
+                detail.amount = rs.amount
+                detail.save()
+                # Reduce quantity of sold product form Amount of Product
+                product = Product.objects.get(id=rs.product_id)
+                product.amount -= rs.quantity 
+                product.save()
+            
+            # Clear and delete Shop Card 
+            ShopCard.objects.filter(user_id = request.user.id)
+            request.session['card_items'] = 0 
+            messages.success(request, "your has been completed successfully, Tank you ")
+            return render(request, "order_complete.html", {'ordercode': ordercode, 'category': category})
+        else:
+            messages.warning(request, form.errors)
+            return HttpResponseRedirect(reverse("order:order-product"))
+    
+    form = OrderForm()
+    context = {
+        'category': category,
+        'profile': profile,
+        'total': total,
+        'shop_card': shop_card,
+        'form': form
+    }
+    return render(request, "order_product.html", context)
