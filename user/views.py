@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib import messages
@@ -7,8 +8,17 @@ from product.models import Category
 from .models import Profile
 from .forms import SignUpForm
 
+@login_required
 def index(request):
-    return HttpResponse("Hellow users")
+    categoy = Category.objects.all()
+    profile = Profile.objects.get(user_id = request.user.id)
+
+    context = {
+        'category': categoy,
+        'profile': profile
+    }
+    return render(request, "user_profile.html", context)
+
 
 
 def login_form(request):

@@ -10,7 +10,7 @@ from product.models import Category, Product
 from user.models import Profile
 
 def index(request):
-    return HttpResponse("order is working")
+    return HttpResponse("order index")
 
 @login_required
 def add_to_card(request, id):
@@ -106,7 +106,7 @@ def order_product(request):
             data.save()
 
             # Move shopcart Item to Order product item
-            shop_card = ShopCard.objects.filter(user_id = request.user.id)
+            # shop_card = ShopCard.objects.filter(user_id = request.user.id)
             for rs in shop_card:
                 detail = OrderProduct()
                 detail.order_id = data.id 
