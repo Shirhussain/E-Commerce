@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 import json 
 
-from . models import Settings, ContactMessage
+from . models import Settings, ContactMessage, FAQ
 from product.models import Category, Product, Images, Comment
 from . forms import ContactForm, SearchForm
 from product.forms import CommentForm
@@ -151,3 +151,12 @@ def add_comment(request, id):
     
     return HttpResponseRedirect(url)
 
+
+def faq(request):
+    category = Category.objects.all()
+    faq = FAQ.objects.filter(status=True).order_by('ordernumber')
+    context = {
+        'faq': faq,
+        'category': category
+    }
+    return render(request, "faq.html", context)
