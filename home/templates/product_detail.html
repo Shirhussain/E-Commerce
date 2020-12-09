@@ -75,6 +75,7 @@
                                     <i class="fa fa-star{% if product.avaregereview < 3%}-o empty{% endif%}"></i>
                                     <i class="fa fa-star{% if product.avaregereview < 4%}-o empty{% endif%}"></i>
                                     <i class="fa fa-star{% if product.avaregereview < 5%}-o empty{% endif%}"></i>
+                                    <!-- next line is for average value -->
                                     {{ product.avaregereview |stringformat:".2f"}}
                                 </div>
                                 <a href="#tab1"> {{ product.countreview}}  Review(s) / Add Review</a>

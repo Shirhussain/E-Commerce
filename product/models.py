@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Avg, Count
 from django.utils.safestring import mark_safe
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -78,7 +79,23 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("product_detail", kwargs={"slug": self.slug})
-    
+
+    def avaregereview(self):
+        # here status = True because in my view i have defined just for those which status is True
+        # the aggregate(avarage) --> the word of avarage is up to user
+        reviews = Comment.objects.filter(product=self, status='True').aggregate(avarage=Avg('rate'))
+        avg=0
+        if reviews["avarage"] is not None:
+            avg=float(reviews["avarage"])
+        return avg
+
+    def countreview(self):
+        reviews = Comment.objects.filter(product=self, status='True').aggregate(count=Count('id'))
+        cnt=0
+        if reviews["count"] is not None:
+            cnt = int(reviews["count"])
+        return cnt
+
 
 
 class Images(models.Model):

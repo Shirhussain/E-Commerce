@@ -27,12 +27,14 @@
 							<div class="product-body">
 								<h3 class="product-price">${{product.price}}</h3>
 								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
-								</div>
+                                    <i class="fa fa-star{% if product.avaregereview < 1%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 2%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 3%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 4%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 5%}-o empty{% endif%}"></i>
+                                    <!-- next line is for average value -->
+                                    {{ product.avaregereview |stringformat:".2f"}}/{{ product.countreview}}
+                                </div>
 								<h2 class="product-name"><a href="{% url 'home:product-detail' product.id product.slug %}">{{product.title}}</a></h2>
 								<div class="product-btns">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
@@ -73,12 +75,14 @@
 							<div class="product-body">
 								<h3 class="product-price">$32.50 <del class="product-old-price">{{product.price}}</del></h3>
 								<div class="product-rating">
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star"></i>
-									<i class="fa fa-star-o empty"></i>
-								</div>
+                                    <i class="fa fa-star{% if product.avaregereview < 1%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 2%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 3%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 4%}-o empty{% endif%}"></i>
+                                    <i class="fa fa-star{% if product.avaregereview < 5%}-o empty{% endif%}"></i>
+                                    <!-- next line is for average value -->
+                                    {{ product.avaregereview |stringformat:".2f"}}
+                                </div>
 								<h2 class="product-name"><a href="{% url 'home:product-detail' product.id product.slug %}">{{product.title}}</a></h2>
 								<div class="product-btns">
 									<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>

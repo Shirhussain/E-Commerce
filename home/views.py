@@ -116,6 +116,11 @@ def product_detail(request, id, slug):
     product = Product.objects.get(pk=id)
     images = Images.objects.filter(product_id = id)
     comments = Comment.objects.filter(product_id = id, status=True)
+    # if you don't wanna use 'averagereview or counterreview' of model so you can do in this view as follows
+    # review = Comment.objects.filter(product_id=id, status=True).aggregate(Count('id'),Avg('rate'))
+    # Retrieve values : review.rate__avg, review.id, status =True).aggregate(Count('id'), Avg('rate'))
+    # review = Comment.objects.raw('SELECT id, count(id) as counterew, avg(rate) as avgrew From product_comment WHERE product_id=%s and STATUS = "True"',[id])[0]
+    # Retrieve values: review.avgrew, review.countrew
 
     context = {
         'product': product,
