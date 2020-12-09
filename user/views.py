@@ -5,7 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
-from product.models import Category
+from product.models import Category, Comment
 from order.models import Order, OrderProduct 
 from .models import Profile
 from .forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
@@ -164,3 +164,22 @@ def user_order_product_detail(request, id, oid):
         'orderitems': orderitems
     }
     return render(request, "user_order_detail.html", context)
+
+@login_required
+def user_comment(request):
+    category = Category.objects.all()
+    current_user = request.user
+    comments = Comment.objects.filter(user_id = current_user.id)
+    context = {
+        'category': category,
+        'comments': comments
+    }
+    return render(request, "user_comment.html", context)
+
+@login_required
+def user_comment_delete(request, id):
+    Comment.objects.filter(id=id, user_id=request.user.id).delete()
+    messages.success(request, "Your comment has been deleted successfully!")
+    return HttpResponseRedirect(reverse('user:user-comment'))
+    
+
