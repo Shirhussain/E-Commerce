@@ -1,0 +1,74 @@
+{% extends 'homebase.html' %}
+{% block title %} Order List {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+
+{% block sidebar %} {% include 'sidebar.html' %} {% endblock %}
+
+{% block body %}
+
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li class="active">Order List</li>
+            </ul>
+        </div>
+    </div>
+    <!-- /BREADCRUMB -->
+    <!-- section -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+
+                <div class="col-md-3"> 
+                    {% include 'user_panel.html' %}
+                </div>
+                <div class="col-md-9">
+                    <div class="order-summary clearfix">
+                        <div class="section-title">
+                            <h3 class="title">Order List</h3>
+                        </div>
+                        <table class="shopping-cart-table table">
+                            <tr>
+                                <td class="txt-left">Id</td>
+                                <td class="txt-left">First Name</td>
+                                <td class="txt-left">Last Name</td>
+                                <td class="txt-left">Total</td>
+                                <td class="txt-left">Status</td>
+                                <td class="txt-left">Date</td>
+                                <td class="txt-left">Detail</td>
+                            </tr>
+                            
+                            {% for rs in orders %}
+                                <tr>
+                                    <td class="text-left">{{rs.id}}</td>
+                                    <td class="text-left">{{rs.first_name}}</td>
+                                    <td class="text-left">{{rs.last_name}}</td>
+                                    <td class="text-left">{{rs.total}}</td>
+                                    <td class="text-left">{{rs.status}}</td>
+                                    <td class="text-left">{{rs.created_at}}</td>
+                                    <td class="text-left"><a href="{% url 'user:order-detail' rs.id %}" class="primary-btn">Detail</a></td>
+                                </tr>
+                            {% endfor %}
+                                
+                        </table>
+                        <div class="pull-right">
+                            <a href="{% url 'order:order-product' %}" class="primary-btn">Place Order</a>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /section -->
+
+{% endblock %}

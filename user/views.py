@@ -6,20 +6,20 @@ from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 
 from product.models import Category
+from order.models import Order, OrderProduct 
 from .models import Profile
 from .forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
+
 
 @login_required
 def index(request):
     categoy = Category.objects.all()
     profile = Profile.objects.get(user_id = request.user.id)
-
     context = {
         'category': categoy,
         'profile': profile
     }
     return render(request, "user_profile.html", context)
-
 
 def login_form(request):
     if request.method == 'POST':
@@ -118,3 +118,49 @@ def user_password(request):
             'form': form
         }
         return render(request, "user_password.html", context)
+
+@login_required
+def user_order(request):
+    category = Category.objects.all()
+    orders = Order.objects.filter(user_id = request.user.id)
+
+    context = {
+        'category': category,
+        'orders': orders
+    }
+    return render(request, "user_orders.html", context)
+
+@login_required
+def user_order_detail(request, id):
+    category = Category.objects.all()
+    # why i'm using user_id ---> it's because of security it means that no buddy can access except user
+    order = Order.objects.get(user_id = request.user.id, id=id)
+    orderitems = OrderProduct.objects.filter(order_id = id)
+    context = {
+        'order': order,
+        'orderitems': orderitems,
+        'category': category
+    }
+    return render(request, "user_order_detail.html", context)
+    
+@login_required
+def user_order_product(request):
+    category = Category.objects.all()
+    order_product = OrderProduct.objects.filter(user_id = request.user.id)
+    context = {
+        'category': category,
+        'order_product': order_product
+    }
+    return render(request, "order_products.html", context)
+
+@login_required
+def user_order_product_detail(request, id, oid):
+    category = Category.objects.all()
+    order = Order.objects.get(user_id = request.user.id, id=oid)
+    orderitems = OrderProduct.objects.filter(id=id, user_id=request.user.id)
+    context = {
+        'category': category,
+        'order': order,
+        'orderitems': orderitems
+    }
+    return render(request, "user_order_detail.html", context)

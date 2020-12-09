@@ -10,4 +10,8 @@ urlpatterns = [
     path('logout/', views.logout_form, name='logout'),
     path('update/', views.user_update, name='user-update'),
     path('password/', views.user_password, name='password'),
+    path('order/', views.user_order, name='order'),
+    path('order-detail/<int:id>/', views.user_order_detail, name='order-detail'),
+    path('order-product/', views.user_order_product, name='order-product'),
+    path('order-product-detail/<int:id>/<int:oid>/', views.user_order_product_detail, name='order-product-detail'),
 ]
