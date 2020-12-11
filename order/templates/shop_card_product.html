@@ -32,7 +32,7 @@
                         <table class="shopping-cart-table table">
                             <thead>
                             <tr>
-                                <th></th>
+                                <th>Image</th>
                                 <th>Product</th>
                                 <th class="text-center">Price</th>
                                 <th class="text-center">Quantity</th>
@@ -56,17 +56,17 @@
                                         <a href="{% url 'home:product-detail' rs.product.id rs.product.slug %}">{{rs.product}} {{ rs.variant.size }} {{ rs.variant.color }}</a>  </td>
                                     <td class="price text-center"><strong>
                                         {% if rs.product.variant == 'None' %}
-                                            $ currency
+                                            {{rs.product.price}}
                                         {% else %}
-                                            $ currency
+                                            {{rs.variant.price}}
                                         {% endif %}
                                     </strong></td>
                                     <td class="qty text-center"><strong>{{rs.quantity}}</strong></td>
                                     <td class="total text-center"><strong class="primary-color">$
                                         {% if rs.product.variant == 'None' %}
-                                            $ currency
+                                            {{rs.amount}}
                                         {% else %}
-                                            $ currency
+                                            {{rs.varamount}}
                                         {% endif %}
                                     </strong></td>
                                     <td class="text-right"><a href="{% url 'order:delete-from-card' rs.id %}" onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i class="fa fa-close"></i></a></td>
@@ -79,7 +79,7 @@
                             <tr>
                                 <th class="empty" colspan="3"></th>
                                 <th>SUBTOTAL</th>
-                                <th colspan="2" class="sub-total">$ currency</th>
+                                <th colspan="2" class="sub-total">$ {{ total }}</th>
                             </tr>
                             <tr>
                                 <th class="empty" colspan="3"></th>
@@ -89,7 +89,7 @@
                             <tr>
                                 <th class="empty" colspan="3"></th>
                                 <th>TOTAL</th>
-                                <th colspan="2" class="total">$ currency</th>
+                                <th colspan="2" class="total">$ {{ total }}</th>
                             </tr>
                             </tfoot>
                         </table>

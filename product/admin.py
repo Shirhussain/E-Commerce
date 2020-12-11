@@ -1,7 +1,8 @@
 from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
+import admin_thumbnails
 
-from product.models import Category, Product, Images, Comment
+from product.models import Category, Product, Images, Comment, Color, Size, Variants
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ['title','parent', 'status']
@@ -48,15 +49,31 @@ class CategoryAdmin2(DraggableMPTTAdmin):
 
 # for inserting product and images at the same time from admin panel so we have to use tabularInline 
 # extra = 5 it means that by default just show 5 images 
+@admin_thumbnails.thumbnail('image')
 class ProductImageInline(admin.TabularInline):
     model = Images
-    extra = 5
+    readonly_fields = ('id',)
+    extra = 1
 
+
+@admin_thumbnails.thumbnail('image')
+class ImagesAdmin(admin.ModelAdmin):
+    list_display = ['image', 'title', 'image_thumbnail']
+
+
+
+class ProductVariantsInline(admin.TabularInline):
+    model = Variants
+    readonly_fields = ('image_tag',)
+    extra = 1 
+    show_change_link = True 
+
+    
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title','category', 'status','image_tag']
     list_filter = ['category']
     readonly_fields = ('image_tag',)
-    inlines = [ProductImageInline]
+    inlines = [ProductImageInline, ProductVariantsInline]
     prepopulated_fields = {'slug': ('title',)}
 
 
@@ -65,7 +82,23 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ['status']
     readonly_fields = ('subject', 'comment', 'rate', 'user', 'ip', 'product')
 
+
+class ColorAdmin(admin.ModelAdmin):
+    list_display = ['name', 'code', 'color_tag']
+    
+
+class SizeAdmin(admin.ModelAdmin):
+    list_display = ['name', 'code']
+
+
+class VariantsAdmin(admin.ModelAdmin):
+    list_display = ['title', 'product', 'color', 'size', 'price', 'quantity', 'image_tag']
+
+
 admin.site.register(Category,CategoryAdmin2)
 admin.site.register(Product,ProductAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Images)
+admin.site.register(Color, ColorAdmin)
+admin.site.register(Size, SizeAdmin)
+admin.site.register(Variants, VariantsAdmin)

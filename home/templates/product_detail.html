@@ -85,7 +85,29 @@
                             <p>{{ product.description }}</p>
 
 
-                    <!-- here it was Ajax by shir -->
+                            <script>
+                                $(document).on('change', '#post-form',function(e){
+                                    e.preventDefault();
+                                    $.ajax({
+                                        type:'POST',
+                                        url:'{% url "home:ajaxcolor" %}',
+                                        data:{
+                                            productid:$('#productid').val(),
+                                            size:$('#size').val(),
+                                            csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+                                            action: 'post'
+                                        },
+                                        data_type : 'html',
+                                        success: function (data) {
+                                            console.log("success");
+                                            $('#appendHere').html(data.rendered_table);
+                                        },
+                                        error: function (data) {
+                                            alert("Got an error dude " + data);
+                                        }
+                                    });
+                                });
+                            </script>
 
 
                             <div class="product-btns">
@@ -93,7 +115,7 @@
                                     {% if product.variant == 'Size-Color' %}
 
                                         <div class="product-options" >
-                                            <div class="size-option">
+                                            <div class="size-option"> 
                                                 <form method="POST" id="post-form">
                                                     <input type="hidden" name="productid" id="productid" value="{{ product.id }}">
                                                     <span class="text-uppercase">Size :</span>
@@ -116,7 +138,7 @@
                                                             <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                             <li  {% if variant.id == rs.id %} class="active" {% endif %}>
                                                                 <a style="background-color:{{ rs.color.code }}; color: #D9D9D9; text-shadow: 1px 1px #000000; width: 90px">
-                                                                    $currency {{ rs.color }}
+                                                                    ${{rs.price}} {{ rs.color }}
                                                                 </a>
                                                                 <img src="{{ rs.image }}" style="height: 70px">
                                                             </li>
@@ -137,8 +159,9 @@
                                                     {% for rs in sizes %}
                                                         <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                         <li  {% if variant.id == rs.id %} class="active" {% endif %}>
-                                                            <a style=" color: #204d74;  width: 90px">
-                                                                $ currency
+                                                            <a style=" color: #204d74;  width: 85px">
+                                                                {{rs.size}} <br>
+                                                                $ {{rs.price}}
                                                             </a>
                                                         </li>
                                                     {% endfor %}
@@ -158,7 +181,7 @@
                                                         <input type="radio"  {% if variant.id == rs.id %} checked {% endif %} name="variantid" id="variantid" value="{{ rs.id }}" onchange="this.form.submit();">
                                                         <li  {% if variant.id == rs.id %} class="active" {% endif %}>
                                                             <a style="background-color:{{ rs.color.code }}; color: #D9D9D9; text-shadow: 1px 1px #000000; width: 90px">
-                                                                $ currency
+                                                                ${{rs.price}} {{rs.color}}
                                                             </a>
                                                             <img src="{{ rs.image }}" style="height: 70px">
                                                         </li>
@@ -189,7 +212,7 @@
                                 </form>
                             {% else %}
 
-                                <form action="/order/addtoshopcart/{{ product.id }}" method="post"  id="addchart-form">
+                                <form action="{% url 'order:add-to-card' product.id %}" method="post"  id="addchart-form">
                                     {% csrf_token %}
                                     <div id="SelectedProduct">
                                         <p><strong>Availability:</strong> {% if product.amount > 0  %} In Stock {% else %} Out of Stock {% endif %}</p>

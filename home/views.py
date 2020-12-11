@@ -1,11 +1,12 @@
-from django.http import HttpResponse, HttpResponseRedirect
+import json 
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-import json 
+from django.template.loader import render_to_string
 
 from . models import Settings, ContactMessage, FAQ
-from product.models import Category, Product, Images, Comment
+from product.models import Category, Comment, Images, Product, Variants
 from . forms import ContactForm, SearchForm
 from product.forms import CommentForm
 
@@ -112,6 +113,7 @@ def search_auto(request):
 
 
 def product_detail(request, id, slug):
+    query = request.GET.get('q')
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
     images = Images.objects.filter(product_id = id)
@@ -121,15 +123,46 @@ def product_detail(request, id, slug):
     # Retrieve values : review.rate__avg, review.id, status =True).aggregate(Count('id'), Avg('rate'))
     # review = Comment.objects.raw('SELECT id, count(id) as counterew, avg(rate) as avgrew From product_comment WHERE product_id=%s and STATUS = "True"',[id])[0]
     # Retrieve values: review.avgrew, review.countrew
-
     context = {
         'product': product,
         'images': images, 
         'category': category,
         'comments': comments
     }
+    if product.variant != "None":
+        if request.method == "POST":
+            variant_id = request.POST.get('variantid')
+            variant = Variants.objects.get(id=variant_id) # select product by click color radio
+            colors = Variants.objects.filter(product_id=id, size_id=variant.size_id)
+            sizes = Variants.objects.raw('SELECT * FROM product_variants WHERE product_id=%s GROUP BY size_id', [id])
+            query += variant.title+' Size:'+str(variant.size)+' Color:' +str(variant.color)
+        else:
+            variants = Variants.objects.filter(product_id=id)
+            colors = Variants.objects.filter(product_id=id, size_id=variants[0].size_id)
+            sizes = Variants.objects.raw('SELECT * FROM product_variants WHERE product_id=%s GROUP BY size_id', [id])
+            variant = Variants.objects.get(id=variants[0].id)
+        context.update({
+            'sizes': sizes,
+            'colors': colors,
+            'variant': variant,
+            'query': query
+        })
     return render(request, "product_detail.html", context)
 
+def ajaxcolor(request):
+    data = {}
+    if request.POST.get('action')=='post':
+        size_id = request.POST.get('size')
+        productid= request.POST.get('productid')
+        colors = Variants.objects.filter(product_id =productid, size_id=size_id)
+        context = {
+            'size_id': size_id,
+            'productid': productid,
+            'colors': colors
+        }
+        data = {'rendered_table': render_to_string('color_list.html', context=context)}
+        return JsonResponse(data)
+    return JsonResponse(data)
 
 def add_comment(request, id):
     url = request.META.get('HTTP_REFERER') # refere to the last or current url
