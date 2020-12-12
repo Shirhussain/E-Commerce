@@ -95,8 +95,13 @@
 										<td class="details"> <a href="{% url 'home:product-detail' rs.id rs.slug %}">{{ rs.title }}</a>	</td>
 										<td class="price text-center"><strong>$ {{rs.price}}</strong><br><del class="font-weak"><small>${{ re.price }}</small></del></td>
 										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-
-										<td class="text-right"><a href="{% url 'order:add-to-card' rs.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a></td>
+										
+										{% if rs.variant == "None" %}
+											<td class="text-right"><a href="{% url 'order:add-to-card' rs.id %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</a></td>
+										{% else %}
+											<td class="text-right"><a href="{% url 'home:product-detail' rs.id rs.slug %}" class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Detail</a></td>
+										{% endif %}
+											
 									</tr>
                                     {% endfor %}
 

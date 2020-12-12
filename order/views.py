@@ -17,14 +17,7 @@ def add_to_card(request, id):
     # return HttpResponse(str(id))
     url = request.META.get('HTTP_REFERER') # get the last url 
     current_user = request.user # access to User session information 
-    
-    # the commented code was for before variant implementation
-    # checkproduct = ShopCard.objects.filter(product_id=id) # check product in shop cart
-    # if checkproduct:
-    #     control = 1 # The product is in the cart
-    # else:
-    #     control = 0 # the product is not in the cart
-    
+
     product= Product.objects.get(pk=id)
     if product.variant != 'None':
         variantid = request.POST.get('variantid')  # from variant add to cart
@@ -39,6 +32,53 @@ def add_to_card(request, id):
             control = 1 # The product is in the cart
         else:
             control = 0 # The product is not in the cart"""
+
+    if request.method == 'POST':  # if there is a post
+        form = ShopCardForm(request.POST)
+        if form.is_valid():
+            if control==1: # Update  shopcart
+                if product.variant == 'None':
+                    data = ShopCard.objects.get(product_id=id, user_id=current_user.id)
+                else:
+                    data = ShopCard.objects.get(product_id=id, variant_id=variantid, user_id=current_user.id)
+                data.quantity += form.cleaned_data['quantity']
+                data.save()  # save data
+            else : # Inser to Shopcart
+                data = ShopCard()
+                variantid = request.POST.get('variantid')
+                data.user_id = current_user.id
+                data.product_id =id
+                data.variant_id = variantid
+                data.quantity = form.cleaned_data['quantity']
+                data.save()
+        messages.success(request, "Product added to Shopcart ")
+        return HttpResponseRedirect(url)
+
+
+    else: # if there is no post
+        if control == 1:  # Update  shopcart
+            data = ShopCard.objects.get(product_id=id, user_id=current_user.id)
+            data.quantity += 1
+            data.save()  #
+        else:  #  Inser to Shopcart
+            data = ShopCard()  # model ile bağlantı kur
+            data.user_id = current_user.id
+            data.product_id = id
+            data.quantity = 1
+            data.variant_id =None
+            data.save()  #
+        messages.success(request, "Product added to Shopcart")
+        return HttpResponseRedirect(url)
+
+
+
+    
+    # the commented code was for before variant implementation
+    # checkproduct = ShopCard.objects.filter(product_id=id) # check product in shop cart
+    # if checkproduct:
+    #     control = 1 # The product is in the cart
+    # else:
+    #     control = 0 # the product is not in the cart
 
     # if request.method == 'POST':
     #     form = ShopCardForm(request.POST)
@@ -58,29 +98,6 @@ def add_to_card(request, id):
     #     messages.success(request, "Product successfully added to cart ")
     #     return HttpResponseRedirect(url)
 
-
-    if request.method == 'POST':  # if there is a post
-        form = ShopCardForm(request.POST)
-        if form.is_valid():
-            if control==1: # Update  shopcart
-                if product.variant == 'None':
-                    data = ShopCard.objects.get(product_id=id, user_id=current_user.id)
-                else:
-                    data = ShopCard.objects.get(product_id=id, variant_id=variantid, user_id=current_user.id)
-                data.quantity += form.cleaned_data['quantity']
-                data.save()  # save data
-            else : # Inser to Shopcart
-                data = ShopCard()
-                data.user_id = current_user.id
-                data.product_id =id
-                data.variant_id = variantid
-                data.quantity = form.cleaned_data['quantity']
-                data.save()
-        messages.success(request, "Product added to Shopcart ")
-        return HttpResponseRedirect(url)
-
-
-
     # The following else is come form just one product which means that 
     # it only come from home which you can't add many quantity at once
     # else:
@@ -96,23 +113,6 @@ def add_to_card(request, id):
     #         data.save()
     #     messages.success(request, "product aded to shop cart")
     #     return HttpResponseRedirect(url)
-
-
-    else: # if there is no post
-        if control == 1:  # Update  shopcart
-            data = ShopCard.objects.get(product_id=id, user_id=current_user.id)
-            data.quantity += 1
-            data.save()  #
-        else:  #  Inser to Shopcart
-            data = ShopCard()  # model ile bağlantı kur
-            data.user_id = current_user.id
-            data.product_id = id
-            data.quantity = 1
-            data.variant_id =None
-            data.save()  #
-        messages.success(request, "Product added to Shopcart")
-        return HttpResponseRedirect(url)
-
 
 
 def shop_card(request):
