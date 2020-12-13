@@ -135,7 +135,9 @@
 							<a href="{% url 'order:shop-card' %}">
 								<div class="header-btns-icon">
 									<i class="fa fa-shopping-cart"></i>
-									<span class="qty">3</span>
+									{% load myapptags %}
+									{% shopcardcount user.id as count %}
+									<span class="qty">{{count}}</span>
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>

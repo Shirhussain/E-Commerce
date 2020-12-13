@@ -1,5 +1,7 @@
 {% load static %}
-{% load mptt_tags %}
+<!-- load my app tag custom template tag -->
+<!-- here we assigned to category because to match our category tree objects -->
+
 	<!-- NAVIGATION -->
 	<div id="navigation">
 		<!-- container -->
@@ -21,6 +23,9 @@
 					<div class="category-nav show-on-click">
 				{% endif %} -->
 					<span class="category-header">Categories <i class="fa fa-list"></i></span>
+					{% load myapptags %}
+					{% categorylist as category %}
+					{% load mptt_tags %}
 					<ul class="category-list">
 						{% recursetree category %}
 							<li class="dropdown side-dropdown">

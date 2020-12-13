@@ -13,6 +13,7 @@ from .forms import SignUpForm, UserUpdateForm, ProfileUpdateForm
 
 @login_required
 def index(request):
+    # if you want to don't repeat Category in your functions so use custom template tags
     categoy = Category.objects.all()
     profile = Profile.objects.get(user_id = request.user.id)
     context = {
