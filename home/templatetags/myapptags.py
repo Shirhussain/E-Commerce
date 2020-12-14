@@ -19,3 +19,4 @@ def shopcardcount(userid):
     return count
 
 
+

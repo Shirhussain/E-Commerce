@@ -1,4 +1,5 @@
 {% load static %}
+{% load i18n %}
 <!-- load my app tag custom template tag -->
 <!-- here we assigned to category because to match our category tree objects -->
 
@@ -22,7 +23,7 @@
 				{% else %}
 					<div class="category-nav show-on-click">
 				{% endif %} -->
-					<span class="category-header">Categories <i class="fa fa-list"></i></span>
+					<span class="category-header">{% trans "Categories" %} <i class="fa fa-list"></i></span>
 					{% load myapptags %}
 					{% categorylist as category %}
 					{% load mptt_tags %}
@@ -67,46 +68,46 @@
 
 				<!-- menu nav -->
 				<div class="menu-nav">
-					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+					<span class="menu-header">{% trans "Menu" %} <i class="fa fa-bars"></i></span>
 					<ul class="menu-list">
-						<li><a href="{% url 'home:index' %}">Home</a></li>
-						<li><a href="{% url 'home:about-us' %}">About us</a></li>
-						<li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Women <i class="fa fa-caret-down"></i></a>
+						<li><a href="{% url 'home:index' %}">{% trans "Home" %}</a></li>
+						<li><a href="{% url 'home:about-us' %}">{% trans "About us" %}</a></li>
+						<li class="dropdown mega-dropdown"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{% trans "Women" %} <i class="fa fa-caret-down"></i></a>
 							<div class="custom-menu">
 								<div class="row">
 									<div class="col-md-4">
 										<ul class="list-links">
 											<li>
-												<h3 class="list-links-title">Categories</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
+												<h3 class="list-links-title">{% trans "Categories" %}</h3></li>
+											<li><a href="#">{% trans "Women’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Men’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Phones & Accessories" %}</a></li>
+											<li><a href="#">{% trans "Jewelry & Watches" %}</a></li>
+											<li><a href="#">{% trans "Bags & Shoes" %}</a></li>
 										</ul>
 										<hr class="hidden-md hidden-lg">
 									</div>
 									<div class="col-md-4">
 										<ul class="list-links">
 											<li>
-												<h3 class="list-links-title">Categories</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
+												<h3 class="list-links-title">{% trans "Categories" %}</h3></li>
+											<li><a href="#">{% trans "Women’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Men’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Phones & Accessories" %}</a></li>
+											<li><a href="#">{% trans "Jewelry & Watches" %}</a></li>
+											<li><a href="#">{% trans "Bags & Shoes" %}</a></li>
 										</ul>
 										<hr class="hidden-md hidden-lg">
 									</div>
 									<div class="col-md-4">
 										<ul class="list-links">
 											<li>
-												<h3 class="list-links-title">Categories</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
+												<h3 class="list-links-title">{% trans "Categories" %}</h3></li>
+											<li><a href="#">{% trans "Women’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Men’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Phones & Accessories" %}</a></li>
+											<li><a href="#">{% trans "Jewelry & Watches" %}</a></li>
+											<li><a href="#">{% trans "Bags & Shoes" %}</a></li>
 										</ul>
 									</div>
 								</div>
@@ -116,15 +117,15 @@
 										<a class="banner banner-1" href="#">
 											<img src="{% static '' %}img/banner05.jpg" alt="">
 											<div class="banner-caption text-center">
-												<h2 class="white-color">NEW COLLECTION</h2>
-												<h3 class="white-color font-weak">HOT DEAL</h3>
+												<h2 class="white-color">{% trans "NEW COLLECTION" %}</h2>
+												<h3 class="white-color font-weak">{% trans "HOT DEAL" %}</h3>
 											</div>
 										</a>
 									</div>
 								</div>
 							</div>
 						</li>
-						<li class="dropdown mega-dropdown full-width"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Men <i class="fa fa-caret-down"></i></a>
+						<li class="dropdown mega-dropdown full-width"><a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{% trans "Men" %} <i class="fa fa-caret-down"></i></a>
 							<div class="custom-menu">
 								<div class="row">
 									<div class="col-md-3">
@@ -132,19 +133,19 @@
 											<a class="banner banner-1" href="#">
 												<img src="{% static '' %}img/banner06.jpg" alt="">
 												<div class="banner-caption text-center">
-													<h3 class="white-color text-uppercase">Women’s</h3>
+													<h3 class="white-color text-uppercase">{% trans "Women’s" %}</h3>
 												</div>
 											</a>
 											<hr>
 										</div>
 										<ul class="list-links">
 											<li>
-												<h3 class="list-links-title">Categories</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
+												<h3 class="list-links-title">{% trans "Categories" %}</h3></li>
+											<li><a href="#">{% trans "Women’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Men’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Phones & Accessories" %}</a></li>
+											<li><a href="#">{% trans "Jewelry & Watches" %}</a></li>
+											<li><a href="#">{% trans "Bags & Shoes" %}</a></li>
 										</ul>
 									</div>
 									<div class="col-md-3">
@@ -152,19 +153,19 @@
 											<a class="banner banner-1" href="#">
 												<img src="{% static '' %}img/banner07.jpg" alt="">
 												<div class="banner-caption text-center">
-													<h3 class="white-color text-uppercase">Men’s</h3>
+													<h3 class="white-color text-uppercase">{% trans "Men’s" %}</h3>
 												</div>
 											</a>
 										</div>
 										<hr>
 										<ul class="list-links">
 											<li>
-												<h3 class="list-links-title">Categories</h3></li>
-											<li><a href="#">Women’s Clothing</a></li>
-											<li><a href="#">Men’s Clothing</a></li>
-											<li><a href="#">Phones & Accessories</a></li>
-											<li><a href="#">Jewelry & Watches</a></li>
-											<li><a href="#">Bags & Shoes</a></li>
+												<h3 class="list-links-title">{% trans "Categories" %}</h3></li>
+											<li><a href="#">{% trans "Women’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Men’s Clothing" %}</a></li>
+											<li><a href="#">{% trans "Phones & Accessories" %}</a></li>
+											<li><a href="#">{% trans "Jewelry & Watches" %}</a></li>
+											<li><a href="#">{% trans "Bags & Shoes" %}</a></li>
 										</ul>
 									</div>
 									<div class="col-md-3">
@@ -210,7 +211,7 @@
 								</div>
 							</div>
 						</li>
-						<li><a href="{% url 'home:contact-us' %}">Contact</a></li>
+						<li><a href="{% url 'home:contact-us' %}">{% trans "Contact" %}</a></li>
 					</ul>
 				</div>
 				<!-- menu nav -->

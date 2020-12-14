@@ -1,0 +1,199 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-14 13:56+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: home/templates/content.html:15
+msgid "Latest Products"
+msgstr "محصولات جدید"
+
+#: home/templates/content.html:25 home/templates/content.html:79
+msgid "Quick view"
+msgstr "مرور سریع"
+
+#: home/templates/content.html:45 home/templates/content.html:99
+msgid "Add to Cart"
+msgstr "اضافه به کارت"
+
+#: home/templates/content.html:47 home/templates/content.html:101
+msgid "Detail"
+msgstr "جزیات"
+
+#: home/templates/content.html:64
+msgid "Picked For You"
+msgstr "برای شما"
+
+#: home/templates/header.html:9
+msgid "Welcome to Danishyar E-shop!"
+msgstr "به فروشگاه دانشیار خوش آمدید"
+
+#: home/templates/header.html:20
+msgid "Store"
+msgstr "فروشگاه"
+
+#: home/templates/header.html:21
+msgid "Newsletter"
+msgstr "اخبار"
+
+#: home/templates/header.html:22
+msgid "FAQ"
+msgstr "سوالات متداول"
+
+#: home/templates/header.html:36
+msgid "Go"
+msgstr "اعمال"
+
+#: home/templates/header.html:40
+msgid "USD"
+msgstr "دالر"
+
+#: home/templates/header.html:42
+msgid "USD ($)"
+msgstr "دالر"
+
+#: home/templates/header.html:43
+msgid "AFG (اف)"
+msgstr "افغانی"
+
+#: home/templates/header.html:92
+msgid "Enter your keyword"
+msgstr "کلمات کلیدی را اینجا وارید کنید"
+
+#: home/templates/header.html:94
+msgid "All Categories"
+msgstr "دسته بندی ها"
+
+#: home/templates/header.html:129
+msgid "Login"
+msgstr "ورود"
+
+#: home/templates/header.html:132
+msgid "My Account"
+msgstr "حساب من"
+
+#: home/templates/header.html:133
+msgid "My Wishlist"
+msgstr "مورد پسند من"
+
+#: home/templates/header.html:134
+msgid "Compare"
+msgstr "مقایسه"
+
+#: home/templates/header.html:135
+msgid "Checkout"
+msgstr "صورت حساب"
+
+#: home/templates/header.html:136
+msgid "Logout"
+msgstr "خروج"
+
+#: home/templates/header.html:150
+msgid "My Cart:"
+msgstr "کارت من"
+
+#: home/templates/sidebar.html:26 home/templates/sidebar.html:81
+#: home/templates/sidebar.html:93 home/templates/sidebar.html:105
+#: home/templates/sidebar.html:143 home/templates/sidebar.html:163
+msgid "Categories"
+msgstr "دسته بندی"
+
+#: home/templates/sidebar.html:71
+msgid "Menu"
+msgstr "مینو"
+
+#: home/templates/sidebar.html:73
+msgid "Home"
+msgstr "خانه"
+
+#: home/templates/sidebar.html:74
+msgid "About us"
+msgstr "در باره ما"
+
+#: home/templates/sidebar.html:75
+msgid "Women"
+msgstr "خانم ها"
+
+#: home/templates/sidebar.html:82 home/templates/sidebar.html:94
+#: home/templates/sidebar.html:106 home/templates/sidebar.html:144
+#: home/templates/sidebar.html:164
+msgid "Women’s Clothing"
+msgstr "لباس های زنانه"
+
+#: home/templates/sidebar.html:83 home/templates/sidebar.html:95
+#: home/templates/sidebar.html:107 home/templates/sidebar.html:145
+#: home/templates/sidebar.html:165
+msgid "Men’s Clothing"
+msgstr "لباس های مردانه"
+
+#: home/templates/sidebar.html:84 home/templates/sidebar.html:96
+#: home/templates/sidebar.html:108 home/templates/sidebar.html:146
+#: home/templates/sidebar.html:166
+msgid "Phones & Accessories"
+msgstr "موبایل و لوازیم جانبی"
+
+#: home/templates/sidebar.html:85 home/templates/sidebar.html:97
+#: home/templates/sidebar.html:109 home/templates/sidebar.html:147
+#: home/templates/sidebar.html:167
+msgid "Jewelry & Watches"
+msgstr "ساعت و جواهرات"
+
+#: home/templates/sidebar.html:86 home/templates/sidebar.html:98
+#: home/templates/sidebar.html:110 home/templates/sidebar.html:148
+#: home/templates/sidebar.html:168
+msgid "Bags & Shoes"
+msgstr "کفش و کیف"
+
+#: home/templates/sidebar.html:120
+msgid "NEW COLLECTION"
+msgstr "لباس های جدید"
+
+#: home/templates/sidebar.html:121
+msgid "HOT DEAL"
+msgstr "معامله های داغ"
+
+#: home/templates/sidebar.html:128
+msgid "Men"
+msgstr "آقایان"
+
+#: home/templates/sidebar.html:136
+msgid "Women’s"
+msgstr "خانم ها"
+
+#: home/templates/sidebar.html:156
+msgid "Men’s"
+msgstr "خانم ها"
+
+#: home/templates/sidebar.html:214
+msgid "Contact"
+msgstr "ارتباط با ما"
+
+#: home/urls.py:9
+msgid "about/"
+msgstr "درباره"
+
+#: home/urls.py:10
+msgid "contact/"
+msgstr "ارتباط"
+
+#: home/urls.py:11
+msgid "search/"
+msgstr "جستجو"
+
+#: home/urls.py:12
+msgid "search_auto/"
+msgstr "جستجو-اتومات"

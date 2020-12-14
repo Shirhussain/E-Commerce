@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -61,6 +62,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # for multi language so you have to use the line bellow 
+    'django.middleware.locale.LocaleMiddleware',
+
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -116,7 +120,30 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
+# multi language support 
+# you need to install  pip install python-gettext==4.0
 
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('fa', _('Persian')),
+]
+
+# django stor your language files in this folder
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+# for running the translation you should do this 
+# which is -l = local, fa = target language, -a=all
+# django-admin makemessages -l fa -a ---> this is used if you have a local folder for every app
+# or django-admin makemessages -l fa 
+# then 
+# django-admin compilemessages
+# if you wanna ignore venv so do this ---> python manage.py compilemessages -i "venv*"
+
+
+# default language
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -158,7 +185,9 @@ CKEDITOR_CONFIGS = {
 ###################################
 
 
-# LOGOUT_REDIRECT_URL = 'account:login'  ---> this is i used when i used login url in acount
+# LOGOUT_REDIRECT_URL = 'account:login'  ---> this is i used when i used login url in account
 LOGOUT_REDIRECT_URL = 'admin:index'
 LOGIN_URL = 'admin:index'
 LOGIN_REDIRECT_URL = 'home:index' 
+
+

@@ -1,8 +1,10 @@
 import json 
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
+from django.utils import translation
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 
 from . models import Settings, ContactMessage, FAQ
@@ -193,3 +195,35 @@ def faq(request):
         'category': category
     }
     return render(request, "faq.html", context)
+
+
+def selectcurrency(request):
+    pass
+    # lasturl = request.META.get('HTTP_REFERER')
+    # if request.method == 'POST':  # check post
+    #     request.session['currency'] = request.POST['currency']
+    # return HttpResponseRedirect(lasturl)
+
+@login_required
+def savelangcur(request):
+    pass
+    # lasturl = request.META.get('HTTP_REFERER')
+    # curren_user = request.user
+    # language=Language.objects.get(code=request.LANGUAGE_CODE[0:2])
+    # #Save to User profile database
+    # data = UserProfile.objects.get(user_id=curren_user.id )
+    # data.language_id = language.id
+    # data.currency_id = request.session['currency']
+    # data.save()  # save data
+    # return HttpResponseRedirect(lasturl)
+
+
+def selectlanguage(request):
+    if request.method == 'POST':  # check post
+        cur_language = translation.get_language()
+        lasturl= request.META.get('HTTP_REFERER')
+        lang = request.POST['language']
+        translation.activate(lang)
+        request.session[translation.LANGUAGE_SESSION_KEY]=lang
+        #return HttpResponse(lang)
+        return HttpResponseRedirect(lang)
