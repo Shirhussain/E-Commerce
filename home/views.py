@@ -6,10 +6,11 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
+from django.conf import settings
 
-from . models import Settings, ContactMessage, FAQ
-from product.models import Category, Comment, Images, Product, Variants
+from . models import Settings, ContactMessage, FAQ, SettingLang
 from . forms import ContactForm, SearchForm
+from product.models import Category, CategoryLang, Comment, Images, Product, Variants
 from product.forms import CommentForm
 
 
@@ -34,13 +35,21 @@ def index(request):
 
 
 def about_us(request):
+    category = Category.objects.all()
+    defaultlang = settings.LANGUAGE_CODE[0:2]
+    currentlang = request.LANGUAGE_CODE[0:2]
     setting = Settings.objects.get(pk=1)
+    if defaultlang != currentlang:
+        setting = SettingLang.objects.get(lang=currentlang)
     context = {
-        'setting': setting
+        'setting': setting,
+        'category': category
     }
     return render(request, 'about.html', context)
 
 def contact_us(request):
+    currentlang = request.LANGUAGE_CODE[0:2]
+    category = Category.objects.all()
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -55,23 +64,54 @@ def contact_us(request):
             return redirect('home:contact-us')
             # return HttpResponseRedirect(reverse('home:contact-us'))
 
+    defaultlang = settings.LANGUAGE_CODE[0:2]
+    currentlang = request.LANGUAGE_CODE[0:2]
     setting = Settings.objects.get(pk=1)
+    if defaultlang != currentlang:
+        setting = SettingLang.objects.get(lang=currentlang)
     form = ContactForm()
     context = {
         'setting': setting,
-        'form': form
+        'form': form,
+        'category': category
     }
     return render(request, 'contact.html', context)
 
-def category_product(request, id, slug):
-    products = Product.objects.filter(category_id=id)
-    category = Category.objects.all()
+# this one was for before multi language implementation 
+# def category_product(request, id, slug):
+#     products = Product.objects.filter(category_id=id)
+#     category = Category.objects.all()
 
-    context = {
+#     context = {
+#         'products': products,
+#         'category': category
+#     }
+#     return render(request, "category_products.html", context)
+
+
+def category_product(request,id,slug):
+    category = Category.objects.all()
+    defaultlang = settings.LANGUAGE_CODE[0:2] # i get first two because it's to lang like --> en-US or fa-IR also in my table i define only 'en' or 'af'
+    currentlang = request.LANGUAGE_CODE[0:2]
+    catdata = Category.objects.get(pk=id)
+    products = Product.objects.filter(category_id=id) #default language
+    if defaultlang != currentlang:
+        try:
+            products = Product.objects.raw(
+                'SELECT p.id,p.price,p.amount,p.image,p.variant,l.title, l.keywords, l.description,l.slug,l.detail '
+                'FROM product_product as p '
+                'LEFT JOIN product_productlang as l '
+                'ON p.id = l.product_id '
+                'WHERE p.category_id=%s and l.lang=%s', [id, currentlang])
+        except:
+            pass
+        catdata = CategoryLang.objects.get(category_id=id, lang=currentlang)
+
+    context={
         'products': products,
-        'category': category
-    }
-    return render(request, "category_products.html", context)
+        'category':category,
+        'catdata':catdata }
+    return render(request,'category_products.html',context)
 
 
 def search(request):
@@ -116,8 +156,25 @@ def search_auto(request):
 
 def product_detail(request, id, slug):
     query = request.GET.get('q')
+    # >>>>>>>>>>>>>>>> M U L T I   L A N G U G A E >>>>>> START
+    defaultlang = settings.LANGUAGE_CODE[0:2] #en-EN
+    currentlang = request.LANGUAGE_CODE[0:2]
+    #category = categoryTree(0, '', currentlang)
     category = Category.objects.all()
     product = Product.objects.get(pk=id)
+
+    if defaultlang != currentlang:
+        try:
+            prolang =  Product.objects.raw('SELECT p.id,p.price,p.amount,p.image,p.variant,l.title, l.keywords, l.description,l.slug,l.detail '
+                                            'FROM product_product as p '
+                                            'INNER JOIN product_productlang as l '
+                                            'ON p.id = l.product_id '
+                                            'WHERE p.id=%s and l.lang=%s',[id,currentlang])
+            product=prolang[0] # selecting one row because of our detail which is one
+        except:
+            pass
+    # <<<<<<<<<< M U L T I   L A N G U G A E <<<<<<<<<<<<<<< end
+
     images = Images.objects.filter(product_id = id)
     comments = Comment.objects.filter(product_id = id, status=True)
     # if you don't wanna use 'averagereview or counterreview' of model so you can do in this view as follows
@@ -188,14 +245,20 @@ def add_comment(request, id):
 
 
 def faq(request):
-    category = Category.objects.all()
-    faq = FAQ.objects.filter(status=True).order_by('ordernumber')
+    defaultlang = settings.LANGUAGE_CODE[0:2]
+    currentlang = request.LANGUAGE_CODE[0:2]
+
+    if defaultlang==currentlang:
+        faq = FAQ.objects.filter(status="True",lang=defaultlang).order_by("ordernumber")
+    else:
+        faq = FAQ.objects.filter(status="True",lang=currentlang).order_by("ordernumber")
+
+    category = Category.objects.all() 
     context = {
         'faq': faq,
         'category': category
     }
     return render(request, "faq.html", context)
-
 
 def selectcurrency(request):
     pass

@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 
+from home.models import Language
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -10,6 +12,7 @@ class Profile(models.Model):
     city = models.CharField(blank=True, max_length=20)
     country = models.CharField(blank=True, max_length=20)
     image = models.ImageField(blank=True, upload_to = "profile_image")
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.user.username

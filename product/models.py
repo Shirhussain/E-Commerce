@@ -8,6 +8,8 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
+from home.models import Language
+
 
 # here in category and sub category i will use mptt 
 # MPTT is a technique for storing hierarchical data in a database.
@@ -184,3 +186,36 @@ class Variants(models.Model):
             return mark_safe('<img src="{}" height="50"/>'.format(img.image.url))
         else:
             return ""
+
+
+llist = Language.objects.all()
+list1 = []
+for rs in llist:
+    list1.append((rs.code, rs.name))
+langlist = (list1)
+
+
+class ProductLang(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE) #many to one relation with category
+    lang = models.CharField(max_length=8, choices=langlist)
+    title = models.CharField(max_length=150)
+    keywords = models.CharField(max_length=255)
+    description = models.CharField(max_length=250)
+    slug = models.SlugField(null=False, unique=True)
+    detail = RichTextUploadingField()
+
+    def get_absolute_url(self):
+        return reverse("product-detail", kwargs={"slug": self.slug})
+    
+
+class CategoryLang(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)#many to one with Category
+    lang = models.CharField(max_length=8, choices=langlist)
+    title = models.CharField(max_length=255)
+    keywords = models.CharField(max_length=250)
+    description = models.CharField(max_length=250)
+    slug = models.SlugField(null=False, unique=True)
+    detail = RichTextUploadingField()
+
+    def get_absolute_url(self):
+        return reverse("category-detail", kwargs={"slug": self.slug})
