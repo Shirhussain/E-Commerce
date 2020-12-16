@@ -1,4 +1,5 @@
 {% extends 'homebase.html' %}
+{% load currency %}
 {% block title %} Order Page {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
@@ -11,7 +12,7 @@
     <div id="breadcrumb">
         <div class="container">
             <ul class="breadcrumb">
-                <li><a href="/">Home</a></li>
+                <li><a href="{% url 'home:index' %}">Home</a></li>
                 <li class="active">Order Page</li>
             </ul>
         </div>
@@ -62,8 +63,8 @@
                             <div class="section-title">
                                 <h4 class="title">Payment Information</h4>
                             </div>
-                            <p><label for="id_first_name">Total: {{ total }} USD </label>
-                                <input type="text" name="total" class="input" readonly value="$currency"></p>
+                            <p><label for="id_first_name">Total: {{ total|currency:request.session.currency }} {{ request.session.currency }} </label>
+                                <input type="text" name="total" class="input" readonly value="{{ total|currency:request.session.currency }} {{ request.session.currency }}"></p>
                             <p><label for="id_first_name">Credit Card Holder</label>
                                 <input type="text" name="holder" class="input"  value=""></p>
                             <p><label for="id_first_name">Credit Card Number</label>
@@ -109,17 +110,17 @@
                                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.product}} {{ rs.variant.size }} {{ rs.variant.color }}</a>  </td>
                                     <td class="price text-center"><strong>
                                         {% if rs.product.variant == 'None' %}
-                                            Currency
+                                            {{ rs.product.price|currency:request.session.currency }} {{ request.session.currency }}
                                         {% else %}
-                                            Currency
+                                            {{ rs.variant.price|currency:request.session.currency }} {{ request.session.currency }}
                                         {% endif %}
                                     </strong></td>
                                     <td class="qty text-center"><strong>{{rs.quantity}}</strong></td>
                                     <td class="total text-center"><strong class="primary-color">$
                                         {% if rs.product.variant == 'None' %}
-                                            Currency
+                                            {{ rs.amount|currency:request.session.currency }} {{ request.session.currency }}
                                         {% else %}
-                                            Currency
+                                            {{ rs.varamount|currency:request.session.currency }} {{ request.session.currency }}
                                         {% endif %}
                                     </strong></td>
                                     <td class="text-right"><a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i class="fa fa-close"></i></a></td>
@@ -132,7 +133,7 @@
                             <tr>
                                 <th class="empty" colspan="3"></th>
                                 <th>SUBTOTAL</th>
-                                <th colspan="2" class="sub-total">Currency</th>
+                                <th colspan="2" class="sub-total">{{ total|currency:request.session.currency }} {{ request.session.currency }}</th>
                             </tr>
                             <tr>
                                 <th class="empty" colspan="3"></th>
@@ -142,7 +143,7 @@
                             <tr>
                                 <th class="empty" colspan="3"></th>
                                 <th>TOTAL</th>
-                                <th colspan="2" class="total">Currency</th>
+                                <th colspan="2" class="total">{{ total|currency:request.session.currency }} {{ request.session.currency }}</th>
                             </tr>
                             </tfoot>
                         </table>

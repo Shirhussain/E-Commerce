@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-14 13:56+0000\n"
+"POT-Creation-Date: 2020-12-16 13:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,167 +18,141 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: home/templates/content.html:15
+#: home/templates/content.html:13
 msgid "Latest Products"
 msgstr "محصولات جدید"
 
-#: home/templates/content.html:25 home/templates/content.html:79
+#: home/templates/content.html:23 home/templates/content.html:77
 msgid "Quick view"
 msgstr "مرور سریع"
 
-#: home/templates/content.html:45 home/templates/content.html:99
+#: home/templates/content.html:43 home/templates/content.html:97
 msgid "Add to Cart"
 msgstr "اضافه به کارت"
 
-#: home/templates/content.html:47 home/templates/content.html:101
+#: home/templates/content.html:45 home/templates/content.html:99
 msgid "Detail"
 msgstr "جزیات"
 
-#: home/templates/content.html:64
+#: home/templates/content.html:62
 msgid "Picked For You"
 msgstr "برای شما"
 
 #: home/templates/header.html:9
-msgid "Welcome to Danishyar E-shop!"
+#, fuzzy
+#| msgid "Welcome to Danishyar E-shop!"
+msgid "Welcome to E-shop!"
 msgstr "به فروشگاه دانشیار خوش آمدید"
 
-#: home/templates/header.html:20
+#: home/templates/header.html:24 home/templates/header2.html:20
 msgid "Store"
 msgstr "فروشگاه"
 
-#: home/templates/header.html:21
+#: home/templates/header.html:25 home/templates/header2.html:21
 msgid "Newsletter"
 msgstr "اخبار"
 
-#: home/templates/header.html:22
+#: home/templates/header.html:26 home/templates/header2.html:22
 msgid "FAQ"
 msgstr "سوالات متداول"
 
-#: home/templates/header.html:36
-msgid "Go"
-msgstr "اعمال"
-
-#: home/templates/header.html:40
-msgid "USD"
-msgstr "دالر"
-
-#: home/templates/header.html:42
-msgid "USD ($)"
-msgstr "دالر"
-
-#: home/templates/header.html:43
-msgid "AFG (اف)"
-msgstr "افغانی"
-
-#: home/templates/header.html:92
-msgid "Enter your keyword"
-msgstr "کلمات کلیدی را اینجا وارید کنید"
-
-#: home/templates/header.html:94
+#: home/templates/header.html:115 home/templates/header2.html:94
 msgid "All Categories"
 msgstr "دسته بندی ها"
 
-#: home/templates/header.html:129
-msgid "Login"
-msgstr "ورود"
-
-#: home/templates/header.html:132
+#: home/templates/header.html:155 home/templates/header2.html:132
 msgid "My Account"
 msgstr "حساب من"
 
-#: home/templates/header.html:133
-msgid "My Wishlist"
-msgstr "مورد پسند من"
+#: home/templates/header.html:156
+msgid "My Favorits"
+msgstr "مورید علاقه"
 
-#: home/templates/header.html:134
-msgid "Compare"
-msgstr "مقایسه"
+#: home/templates/header.html:157
+msgid "My Orders "
+msgstr "سفارش من"
 
-#: home/templates/header.html:135
-msgid "Checkout"
-msgstr "صورت حساب"
+#: home/templates/header.html:158
+msgid "My Comments"
+msgstr "نظرات من"
 
-#: home/templates/header.html:136
+#: home/templates/header.html:159 home/templates/header2.html:136
 msgid "Logout"
 msgstr "خروج"
 
-#: home/templates/header.html:150
+#: home/templates/header.html:175 home/templates/header2.html:150
 msgid "My Cart:"
 msgstr "کارت من"
 
-#: home/templates/sidebar.html:26 home/templates/sidebar.html:81
-#: home/templates/sidebar.html:93 home/templates/sidebar.html:105
-#: home/templates/sidebar.html:143 home/templates/sidebar.html:163
+#: home/templates/header2.html:9
+msgid "Welcome to Danishyar E-shop!"
+msgstr "به فروشگاه دانشیار خوش آمدید"
+
+#: home/templates/header2.html:36
+msgid "Go"
+msgstr "اعمال"
+
+#: home/templates/header2.html:40
+msgid "USD"
+msgstr "دالر"
+
+#: home/templates/header2.html:42
+msgid "USD ($)"
+msgstr "دالر"
+
+#: home/templates/header2.html:43
+msgid "AFG (اف)"
+msgstr "افغانی"
+
+#: home/templates/header2.html:92
+msgid "Enter your keyword"
+msgstr "کلمات کلیدی را اینجا وارید کنید"
+
+#: home/templates/header2.html:129
+msgid "Login"
+msgstr "ورود"
+
+#: home/templates/header2.html:133
+msgid "My Wishlist"
+msgstr "مورد پسند من"
+
+#: home/templates/header2.html:134
+msgid "Compare"
+msgstr "مقایسه"
+
+#: home/templates/header2.html:135
+msgid "Checkout"
+msgstr "صورت حساب"
+
+#: home/templates/sidebar.html:16 home/templates/sidebar2.html:26
 msgid "Categories"
 msgstr "دسته بندی"
 
-#: home/templates/sidebar.html:71
-msgid "Menu"
-msgstr "مینو"
-
-#: home/templates/sidebar.html:73
+#: home/templates/sidebar.html:37 home/templates/sidebar2.html:73
 msgid "Home"
 msgstr "خانه"
 
-#: home/templates/sidebar.html:74
+#: home/templates/sidebar.html:38
+#, fuzzy
+#| msgid "About us"
+msgid "About Us"
+msgstr "در باره ما"
+
+#: home/templates/sidebar.html:39
+#, fuzzy
+#| msgid "Contact"
+msgid "Contact Us"
+msgstr "ارتباط با ما"
+
+#: home/templates/sidebar2.html:71
+msgid "Menu"
+msgstr "مینو"
+
+#: home/templates/sidebar2.html:74
 msgid "About us"
 msgstr "در باره ما"
 
-#: home/templates/sidebar.html:75
-msgid "Women"
-msgstr "خانم ها"
-
-#: home/templates/sidebar.html:82 home/templates/sidebar.html:94
-#: home/templates/sidebar.html:106 home/templates/sidebar.html:144
-#: home/templates/sidebar.html:164
-msgid "Women’s Clothing"
-msgstr "لباس های زنانه"
-
-#: home/templates/sidebar.html:83 home/templates/sidebar.html:95
-#: home/templates/sidebar.html:107 home/templates/sidebar.html:145
-#: home/templates/sidebar.html:165
-msgid "Men’s Clothing"
-msgstr "لباس های مردانه"
-
-#: home/templates/sidebar.html:84 home/templates/sidebar.html:96
-#: home/templates/sidebar.html:108 home/templates/sidebar.html:146
-#: home/templates/sidebar.html:166
-msgid "Phones & Accessories"
-msgstr "موبایل و لوازیم جانبی"
-
-#: home/templates/sidebar.html:85 home/templates/sidebar.html:97
-#: home/templates/sidebar.html:109 home/templates/sidebar.html:147
-#: home/templates/sidebar.html:167
-msgid "Jewelry & Watches"
-msgstr "ساعت و جواهرات"
-
-#: home/templates/sidebar.html:86 home/templates/sidebar.html:98
-#: home/templates/sidebar.html:110 home/templates/sidebar.html:148
-#: home/templates/sidebar.html:168
-msgid "Bags & Shoes"
-msgstr "کفش و کیف"
-
-#: home/templates/sidebar.html:120
-msgid "NEW COLLECTION"
-msgstr "لباس های جدید"
-
-#: home/templates/sidebar.html:121
-msgid "HOT DEAL"
-msgstr "معامله های داغ"
-
-#: home/templates/sidebar.html:128
-msgid "Men"
-msgstr "آقایان"
-
-#: home/templates/sidebar.html:136
-msgid "Women’s"
-msgstr "خانم ها"
-
-#: home/templates/sidebar.html:156
-msgid "Men’s"
-msgstr "خانم ها"
-
-#: home/templates/sidebar.html:214
+#: home/templates/sidebar2.html:75
 msgid "Contact"
 msgstr "ارتباط با ما"
 

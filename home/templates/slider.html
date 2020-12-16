@@ -1,5 +1,6 @@
 {% load static %}
-	<!-- HOME -->
+{% load currency %}
+<!-- HOME -->
 	<div id="home">
 		<!-- container -->
 		<div class="container">
@@ -13,8 +14,8 @@
 						<div class="banner banner-1">
 							<img src="{{res.image.url}}" alt="" style="height: 450px;">
 							<div class="banner-caption text-center">
-								<h1>Bags sale</h1>
-								<h3 class="white-color font-weak">{{res.price}}</h3>
+								<h1>{{res.title|truncatewords:2}}</h1>
+								<h3 class="white-color font-weak">{{res.price|currency:request.session.currency}} {{request.session.currency}}</h3>
 								<a href="#" class="primary-btn">Shop Now</a>
 							</div>
 						</div>

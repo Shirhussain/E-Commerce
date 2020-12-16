@@ -1,6 +1,6 @@
 {% load static %}
 {% load i18n %}
-
+{% load currency %}
 	<!-- section -->
 	<div class="section">
 		<!-- container -->
@@ -24,7 +24,7 @@
 								<img src="{{product.image.url}}" alt="product image" style="height: 170px;">
 							</div>
 							<div class="product-body">
-								<h3 class="product-price">${{product.price}}</h3>
+								<h3 class="product-price">{{product.price|currency:request.session.currency}} {{request.session.currency}}</h3>
 								<div class="product-rating">
                                     <i class="fa fa-star{% if product.avaregereview < 1%}-o empty{% endif%}"></i>
                                     <i class="fa fa-star{% if product.avaregereview < 2%}-o empty{% endif%}"></i>
@@ -78,7 +78,7 @@
 								<img src="{{product.image.url}}" alt="product image" style="height: 170px;">
 							</div>
 							<div class="product-body">
-								<h3 class="product-price">$32.50 <del class="product-old-price">{{product.price}}</del></h3>
+								<h3 class="product-price">{{product.price|currency:request.session.currency}} {{request.session.currency}}</h3>
 								<div class="product-rating">
                                     <i class="fa fa-star{% if product.avaregereview < 1%}-o empty{% endif%}"></i>
                                     <i class="fa fa-star{% if product.avaregereview < 2%}-o empty{% endif%}"></i>

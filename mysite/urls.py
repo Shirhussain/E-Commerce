@@ -17,6 +17,7 @@ urlpatterns = [
 
 
 urlpatterns += i18n_patterns (
+    path('currencies/', include('currencies.urls')),
     path('', include('home.urls', namespace='home')),
     path(_('product/'), include('product.urls', namespace='product')),
     path(_('order/'), include('order.urls', namespace='order')),

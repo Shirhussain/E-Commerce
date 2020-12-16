@@ -1,4 +1,5 @@
 {% extends 'homebase.html' %}
+{% load currency %}
 {% block title %} Order Page {% endblock %}
 {% block description %} {{ setting.description }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
@@ -108,17 +109,17 @@
                                         <a href="/product/{{ rs.product.id }}/{{ rs.product.slug }}">{{rs.product}} {{ rs.variant.size }} {{ rs.variant.color }}</a>  </td>
                                     <td class="price text-center"><strong>
                                         {% if rs.product.variant == 'None' %}
-                                            currency
+                                            {{ rs.product.price|currency:request.session.currency }} {{ request.session.currency }}
                                         {% else %}
-                                            currency
+                                            {{rs.variant.price|currency:request.session.currency}} {{request.session.currency}}
                                         {% endif %}
                                     </strong></td>
                                     <td class="qty text-center"><strong>{{rs.quantity}}</strong></td>
                                     <td class="total text-center"><strong class="primary-color">$
                                         {% if rs.product.variant == 'None' %}
-                                            currency
+                                            {{rs.amount|currency:request.session.currency}} {{request.session.currency}}
                                         {% else %}
-                                            currency
+                                            {{rs.varamount|currency:request.session.currency}} {{request.session.currency}}
                                         {% endif %}
                                     </strong></td>
                                     <td class="text-right"><a href="/order/deletefromcart/{{ rs.id }}" onclick="return confirm('Delete ! Are you sure?')" class="main-btn icon-btn"><i class="fa fa-close"></i></a></td>
@@ -131,7 +132,7 @@
                             <tr>
                                 <th class="empty" colspan="3"></th>
                                 <th>SUBTOTAL</th>
-                                <th colspan="2" class="sub-total">currency</th>
+                                <th colspan="2" class="sub-total">{{total|currency:request.session.currency}} {{request.session.currency}}</th>
                             </tr>
                             <tr>
                                 <th class="empty" colspan="3"></th>
@@ -141,7 +142,7 @@
                             <tr>
                                 <th class="empty" colspan="3"></th>
                                 <th>TOTAL</th>
-                                <th colspan="2" class="total">currency</th>
+                                <th colspan="2" class="total">{{total|currency:request.session.currency}} {{request.session.currency}}</th>
                             </tr>
                             </tfoot>
                         </table>

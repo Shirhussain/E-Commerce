@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-14 13:56+0000\n"
+"POT-Creation-Date: 2020-12-16 13:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: mysite/settings.py:128
+#: mysite/settings.py:133
 msgid "English"
 msgstr "انگلیسی"
 
-#: mysite/settings.py:129
+#: mysite/settings.py:134
 msgid "Persian"
 msgstr "فارسی"
 
-#: mysite/urls.py:21
+#: mysite/urls.py:22
 msgid "product/"
 msgstr "محصول"
 
-#: mysite/urls.py:22
+#: mysite/urls.py:23
 msgid "order/"
 msgstr "سفارش"
 
-#: mysite/urls.py:23
+#: mysite/urls.py:24
 msgid "user/"
 msgstr "یوزر"
 
-#: mysite/urls.py:24
+#: mysite/urls.py:25
 msgid "admin/"
 msgstr "مدیر"
 
@@ -1282,48 +1282,3 @@ msgstr ""
 #: venv/lib/python3.8/site-packages/jsonfield/fields.py:94
 msgid "Enter valid JSON"
 msgstr ""
-
-#~ msgid "Welcome to Danishyar E-shop!"
-#~ msgstr "به فروشگاه دانشیار خوش آمدید"
-
-#~ msgid "Store"
-#~ msgstr "فروشگاه"
-
-#~ msgid "Newsletter"
-#~ msgstr "اخبار"
-
-#~ msgid "FAQ"
-#~ msgstr "سوالات متداول"
-
-#~ msgid "USD"
-#~ msgstr "دالر"
-
-#~ msgid "USD ($)"
-#~ msgstr "دالر"
-
-#~ msgid "AFG (اف)"
-#~ msgstr "افغانی"
-
-#~ msgid "All Categories"
-#~ msgstr "همه دسته بندی ها"
-
-#~ msgid "Login"
-#~ msgstr "ورود"
-
-#~ msgid "My Account"
-#~ msgstr "حساب من"
-
-#~ msgid "My Wishlist"
-#~ msgstr "مورد پسند من"
-
-#~ msgid "Compare"
-#~ msgstr "مقایسه"
-
-#~ msgid "Checkout"
-#~ msgstr "صورت حساب"
-
-#~ msgid "Logout"
-#~ msgstr "خروج"
-
-#~ msgid "My Cart:"
-#~ msgstr "کارت من"

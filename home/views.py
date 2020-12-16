@@ -8,10 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.template.loader import render_to_string
 from django.conf import settings
 
-from . models import Settings, ContactMessage, FAQ, SettingLang
+from . models import Settings, ContactMessage, FAQ, SettingLang, Language
 from . forms import ContactForm, SearchForm
 from product.models import Category, CategoryLang, Comment, Images, Product, Variants
 from product.forms import CommentForm
+from user.models import Profile
 
 
 def selectlanguage(request):
@@ -25,6 +26,10 @@ def selectlanguage(request):
         return HttpResponseRedirect(lang)
 
 def index(request):
+    # check currency, set currency 
+    if not request.session.has_key('currency'):
+        request.session['currency'] = settings.DEFAULT_CURRENCY
+
     setting = Settings.objects.get(pk=1)
     # category = Category.objects.all()
     products_latest = Product.objects.all().order_by('-id')[:4] # latest
@@ -281,21 +286,19 @@ def faq(request):
     return render(request, "faq.html", context)
 
 def selectcurrency(request):
-    pass
-    # lasturl = request.META.get('HTTP_REFERER')
-    # if request.method == 'POST':  # check post
-    #     request.session['currency'] = request.POST['currency']
-    # return HttpResponseRedirect(lasturl)
+    lasturl = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':  # check post
+        request.session['currency'] = request.POST['currency']
+    return HttpResponseRedirect(lasturl)
 
 @login_required
 def savelangcur(request):
-    pass
-    # lasturl = request.META.get('HTTP_REFERER')
-    # curren_user = request.user
-    # language=Language.objects.get(code=request.LANGUAGE_CODE[0:2])
-    # #Save to User profile database
-    # data = UserProfile.objects.get(user_id=curren_user.id )
-    # data.language_id = language.id
-    # data.currency_id = request.session['currency']
-    # data.save()  # save data
-    # return HttpResponseRedirect(lasturl)
+    lasturl = request.META.get('HTTP_REFERER')
+    curren_user = request.user
+    language=Language.objects.get(code=request.LANGUAGE_CODE[0:2])
+    #Save to User profile database
+    data = Profile.objects.get(user_id=curren_user.id )
+    data.language_id = language.id
+    data.currency_id = request.session['currency']
+    data.save()  # save data
+    return HttpResponseRedirect(lasturl)

@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load currency %}
 <header>
     <!-- top Header -->
     <div id="top-header">
@@ -92,7 +93,7 @@
                 <script>
                     $(function() {
                         $("#query").autocomplete({
-                            source: "/search_auto/",
+                            source: "{% url 'home:search-auto' %}",
                             select: function (event, ui) { //item selected
                                 AutoCompleteSelectHandler(event, ui)
                             },
@@ -107,12 +108,26 @@
 
                 <!-- Search -->
                 <div class="header-search">
-                    <form action="/search/" method="post">
+                    <form action="{% url 'home:search' %}" method="post">
                         {% csrf_token %}
                         <input id="query" name="query" class="input search-input" type="text" placeholder="Enter your keyword">
                         <select name="catid"  class="input search-categories">
                             <option value="0">{% trans "All Categories" %}</option>
+                            {% comment %}
+                                {% load mptt_tags %}
 
+                                {% recursetree category %}
+                                    {% if node.is_leaf_node %}
+                                        <option value="{{ node.id }}">{{ node.title }}</option>
+                                    {% endif %}
+                                    {% if not node.is_leaf_node %}
+                                        <optgroup label="{{ node.title }}">
+                                            {{ children }}
+                                        </optgroup>
+                                    {% endif %}
+                                {% endrecursetree %}
+                            {% endcomment %}
+                                
                         </select>
                         <button class="search-btn"><i class="fa fa-search"></i></button>
                     </form>

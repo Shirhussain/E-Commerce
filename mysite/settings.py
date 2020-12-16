@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     # mptt is for category and subcategory for recursive use or 
     # MPTT is a technique for storing hierarchical data in a database. 
     'mptt',
+    'currencies',
+
+
     # myapps
     'product.apps.ProductConfig',
     'home.apps.HomeConfig',
@@ -80,6 +83,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # for multi currencies you have to put the line bellow
+                'currencies.context_processors.currencies',
             ],
         },
     },
@@ -145,6 +150,10 @@ LOCALE_PATHS = [
 
 # default language
 LANGUAGE_CODE = 'en-us'
+
+# default Currency
+# this solution for multiple currency in this site is not totally based on 'django-currencies' package
+DEFAULT_CURRENCY = 'USD'
 
 TIME_ZONE = 'UTC'
 
