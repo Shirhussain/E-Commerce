@@ -1,0 +1,83 @@
+{% load static %}
+{% load i18n %}
+<!-- load my app tag custom template tag -->
+<!-- here we assigned to category because to match our category tree objects -->
+
+	<!-- NAVIGATION -->
+	<div id="navigation">
+		<!-- container -->
+		<div class="container">
+			<div id="responsive-nav">
+				<!-- category nav -->
+				<!-- here we need this because our index is not the same as about us or contact us
+					you can implement in two ways which like as follows
+				-->
+				{% if page %}
+					<div class="category-nav">
+				{% else %}
+					<div class="category-nav show-on-click">
+				{% endif %}
+
+				<!-- {% if request.resolver_match.url_name == 'home:index' %}
+					<div class="category-nav">
+				{% else %}
+					<div class="category-nav show-on-click">
+				{% endif %} -->
+					<span class="category-header">{% trans "Categories" %} <i class="fa fa-list"></i></span>
+					<!-- {% load myapptags %}
+					{% categorylist as category %} -->
+					{% load mptt_tags %}
+					<ul class="category-list">
+						{% recursetree category %}
+							<li class="dropdown side-dropdown">
+								<a href="{% url 'home:category-product' node.id node.slug %}" class="dropdown-toggle" {% if not node.is_leaf_node %} data-toggle="dropdown" aria-expanded="true" {% endif %} >
+									{{ node.title }} {% if not node.is_leaf_node %} <i class="fa fa-angle-right"> {% endif %}</i>
+								</a>
+								<div class="custom-menu">
+									<div class="row">
+										<div class="col-md-4">
+											{% if not node.is_leaf_node %}
+												<ul class="list-links">
+													<li>
+														<!-- <h3 class="list-links-title">Sub Categories</h3></li> -->
+														<hr>
+													<li><a href="#">{{ children }}</a></li>
+												</ul>
+											{% endif %}
+											<hr class="hidden-md hidden-lg">
+										</div>
+									</div>
+									<!-- <div class="row hidden-sm hidden-xs">
+										<div class="col-md-12">
+											<hr>
+											<a class="banner banner-1" href="#">
+											<img src="{{ node.image.url }}" style="{ width: 50%; height: 100px;}" alt="">
+												<div class="banner-caption text-center">
+													<h2 class="white-color">NEW COLLECTION</h2>
+													<h3 class="white-color font-weak">HOT DEAL</h3>
+												</div>
+											</a>
+										</div>
+									</div> -->
+								</div>
+							</li>
+						{% endrecursetree %}
+					</ul>
+				</div>
+				<!-- /category nav -->
+
+				<!-- menu nav -->
+				<div class="menu-nav">
+					<span class="menu-header">{% trans "Menu" %} <i class="fa fa-bars"></i></span>
+					<ul class="menu-list">
+						<li><a href="{% url 'home:index' %}">{% trans "Home" %}</a></li>
+						<li><a href="{% url 'home:about-us' %}">{% trans "About us" %}</a></li>
+						<li><a href="{% url 'home:contact-us' %}">{% trans "Contact" %}</a></li>
+					</ul>
+				</div>
+				<!-- menu nav -->
+			</div>
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /NAVIGATION -->

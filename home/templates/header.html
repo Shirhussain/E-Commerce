@@ -1,169 +1,179 @@
 {% load static %}
 {% load i18n %}
-<!-- HEADER -->
-	<header>
-		<!-- top Header -->
-		<div id="top-header">
-			<div class="container">
-				<div class="pull-left">
-					<span>{% trans "Welcome to Danishyar E-shop!" %} </span>
-					{% if messages %}
-						{% for message in messages %}
-							<div class="alert alert-{{message.tags}}" role="alert">
-								{{ message |safe }}
-							</div>
-						{% endfor %}
-					{% endif %}
-				</div>
-				<div class="pull-right">
-					<ul class="header-top-links">
-						<li><a href="#">{% trans "Store" %}</a></li>
-						<li><a href="#">{% trans "Newsletter" %}</a></li>
-						<li><a href="{% url 'home:faq' %}">{% trans "FAQ" %}</a></li>
-						<li class="dropdown default-dropdown">
-							<form action="{% url 'selectlanguage' %}" method="POST">{% csrf_token %}
-								<input name="next" type="hidden" value="{{ redirect_to }}">
-								<select name="language">
-									{% get_current_language as LANGUAGE_CODE %}
-									{% get_available_languages as LANGUAGES %}
-									{% get_language_info_list for LANGUAGES as languages %}
-									{% for language in languages %}
-										<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
-											{{ language.name_local }} ({{ language.code }})
-										</option>
-									{% endfor %}
-								</select>
-								<input type="submit" value="{% trans 'Go' %}">
-							</form>
-						</li>
-						<li class="dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">{% trans "USD" %} <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">{% trans "USD ($)" %}</a></li>
-								<li><a href="#">{% trans "AFG (اف)" %}</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- /top Header -->
+<header>
+    <!-- top Header -->
+    <div id="top-header">
+        <div class="container">
+            <div class="pull-left">
+                <span>{% trans "Welcome to E-shop!" %}</span>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}" role="alert">
+                            {{ message |safe }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
 
-		<!-- header -->
-		<div id="header">
-			<div class="container">
-				<div class="pull-left">
-					<!-- Logo -->
-					<div class="header-logo">
-						<a class="logo" href="#">
-							<img src="{% static '' %}img/logo.png" alt="">
-						</a>
-					</div>
-					<!-- /Logo -->
-					
-					<!-- JQuery autocomplete  -->
-					<script>
 
-						$(function() {
-							// in input id we have query so that's why i put query here
-							$("#query").autocomplete({
-								// url of auto search
-							source: "{% url 'home:search-auto' %}",
-							select: function (event, ui) { //item selected
-								AutoCompleteSelectHandler(event, ui)
-							},
-							minLength: 2,
-							});
-						});
-					
-						function AutoCompleteSelectHandler(event, ui)
-						{
-							var selectedObj = ui.item;
-						}
-					
-					</script>
 
-					<!-- /JQuery autocomplete  -->
 
-					<!-- Search -->
-					<div class="header-search">
-						<form action="{% url 'home:search' %}" method="POST">
-							{% csrf_token %}
-							<input id='query' name='query' class="input search-input" type="text" placeholder="{% trans 'Enter your keyword' %}">
-							<select name='catid' class="input search-categories">
-								<option value="0">{% trans "All Categories" %}</option>
-								<!-- {% for cat in category %}
-									<option value="{{ cat.id }}">{{ cat.title }} </option>
-								{% endfor %} 
-								instead of the above formula i can user mptt way to just for better styling and grouping 
-								-->
-								{% load mptt_tags %}
-								{% recursetree category %}
-										{% if node.is_leaf_node %}
-											<option value="{{node.id}}">{{node.title}}</option>
-										{% endif %}
-										{% if not node.is_leaf_node %}
-											<optgroup label="{{node.title}}">{{children}}</optgroup>
-										{% endif %}
-								{% endrecursetree %}
-								</ul>
-							</select>
-							<button class="search-btn"><i class="fa fa-search"></i></button>
-						</form>
-					</div>
-					<!-- /Search -->
-				</div>
-				<div class="pull-right">
-					<ul class="header-btns">
-						<!-- Account -->
-						<li class="header-account dropdown default-dropdown">
-							
-							{% if user.id is not None %}
-								<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-									<div class="header-btns-icon">
-										<img src="{{request.session.userimage}}" alt="user image" style="height:40px; width: 40px; border-radius: 30%">
-									</div>
-									<strong class="text-uppercase">{{user.get_full_name}} <i class="fa fa-caret-down"></i></strong>
-								</div>
-							{% else %}
-								<a href="{% url 'user:login' %}" class="text-uppercase">{% trans "Login" %}</a> / <a href="{% url 'user:signup' %}" class="text-uppercase">SignUP</a>
-							{% endif %}
-							<ul class="custom-menu">
-								<li><a href="{% url 'user:profile' %}"><i class="fa fa-user-o"></i> {% trans "My Account" %}</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> {% trans "My Wishlist" %}</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> {% trans "Compare" %}</a></li>
-								<li><a href="#"><i class="fa fa-check"></i> {% trans "Checkout" %}</a></li>
-								<li><a href="{% url 'user:logout' %}"><i class="fa fa-unlock-alt"></i> {% trans "Logout" %}</a></li>
-							</ul>
-						</li>
-						<!-- /Account -->
+            <div class="pull-right">
+                <ul class="header-top-links">
+                    <li><a href="#">{% trans "Store" %}</a></li>
+                    <li><a href="#">{% trans "Newsletter" %}</a></li>
+                    <li><a href="{% url 'home:faq' %}">{% trans "FAQ" %}</a></li>
+                    <li class="dropdown default-dropdown">
+                        <form action="{% url 'selectlanguage' %}" method="post">{% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <select name="language" onchange="submit()" >
 
-						<!-- Cart -->
-						<li class="header-cart dropdown default-dropdown">
-							<a href="{% url 'order:shop-card' %}">
-								<div class="header-btns-icon">
-									<i class="fa fa-shopping-cart"></i>
-									{% load myapptags %}
-									{% shopcardcount user.id as count %}
-									<span class="qty">{{count}}</span>
-								</div>
-								<strong class="text-uppercase">{% trans "My Cart:" %}</strong>
-								<br>
-								<span>35.20$</span>
-							</a>
-						</li>
-						<!-- /Cart -->
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                        {{ language.name_local }} ({{ language.code }})
+                                    </option>
+                                {% endfor %}
 
-						<!-- Mobile nav toggle-->
-						<li class="nav-toggle">
-							<button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
-						</li>
-						<!-- / Mobile nav toggle -->
-					</ul>
-				</div>
-			</div>
-			<!-- header -->
-		</div>
-		<!-- container -->
-	</header>
-	<!-- /HEADER -->
+                            </select>
+                            <noscript>
+                                <input type="submit" value="Set" />
+                            </noscript>
+                        </form>
+                    </li>
+
+                    <li class="dropdown default-dropdown">
+
+
+                        <form id="currency_switcher" method="POST" action="{% url 'selectcurrency' %}">
+                            {% csrf_token %}
+                            <select name="currency" onchange="submit()" >
+                                {% for curr in CURRENCIES %}
+                                    <option value="{{ curr.code }}"
+                                            {% ifequal curr.code request.session.currency %}selected="selected"{% endifequal %}>
+                                        {{ curr.symbol }} {{ curr.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <noscript>
+                                <input type="submit" value="Set" />
+                            </noscript>
+
+                        </form>
+                    </li>
+
+                    <li class="dropdown default-dropdown">
+                        <form id="currency_switcher" method="POST" action="{% url 'savelangcur' %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Save" />
+                        </form>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /top Header -->
+
+    <!-- header -->
+    <div id="header">
+        <div class="container">
+            <div class="pull-left">
+                <!-- Logo -->
+                <div class="header-logo">
+                    <a class="logo" href="{% url 'home:index' %}">
+                        <img src="{% static '' %}img/logo.png" alt="">
+                    </a>
+                </div>
+                <!-- /Logo -->
+                <script>
+                    $(function() {
+                        $("#query").autocomplete({
+                            source: "/search_auto/",
+                            select: function (event, ui) { //item selected
+                                AutoCompleteSelectHandler(event, ui)
+                            },
+                            minLength: 2,
+                        });
+                    });
+                    function AutoCompleteSelectHandler(event, ui)
+                    {
+                        var selectedObj = ui.item;
+                    }
+                </script>
+
+                <!-- Search -->
+                <div class="header-search">
+                    <form action="/search/" method="post">
+                        {% csrf_token %}
+                        <input id="query" name="query" class="input search-input" type="text" placeholder="Enter your keyword">
+                        <select name="catid"  class="input search-categories">
+                            <option value="0">{% trans "All Categories" %}</option>
+
+                        </select>
+                        <button class="search-btn"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <!-- /Search -->
+
+            </div>
+            <div class="pull-right" >
+                <ul class="header-btns">
+                    <!-- Account -->
+                    <li class="header-account dropdown default-dropdown">
+                        {% if user.id is not None %}
+                            <div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+                                <div class="header-btns-icon">
+                                    <img src="{{ request.session.userimage }}" style="height: 40px; border-radius: 30%">
+                                </div>
+                                <strong class="text-uppercase">{{ user.first_name }} <i class="fa fa-caret-down"></i></strong>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'user:login' %}" class="text-uppercase">Login</a> / <a href="{% url 'user:signup' %}" class="text-uppercase">Sign Up</a>
+                        {% endif %}
+
+                        <ul class="custom-menu">
+                            <li><a href="{% url 'user:profile' %}"><i class="fa fa-user-o"></i> {% trans "My Account" %}</a></li>
+                            <li><a href="#"><i class="fa fa-heart-o"></i> {% trans "My Favorits" %}</a></li>
+                            <li><a href="{% url 'user:order' %}"><i class="fa fa-exchange"></i> {% trans "My Orders " %}</a></li>
+                            <li><a href="{% url 'user:user-comment' %}"><i class="fa fa-check"></i> {% trans "My Comments" %}</a></li>
+                            <li><a href="{% url 'user:logout' %}"><i class="fa fa-unlock-alt"></i> {% trans "Logout" %}</a></li>
+
+                        </ul>
+                    </li>
+                    <!-- /Account -->
+
+                    <!-- Cart -->
+                    <li class="header-cart dropdown default-dropdown">
+                        <a href="{% url 'order:shop-card'%}" >
+                            <div class="header-btns-icon">
+                                <i class="fa fa-shopping-cart"></i>
+                                {% load myapptags %}
+                                {% shopcardcount user.id as count %}
+
+                                <span class="qty">{{ count }}</span>
+                            </div>
+                            <strong class="text-uppercase">{% trans "My Cart:" %}</strong>
+                            <br>
+
+                        </a>
+
+                    </li>
+                    <!-- /Cart -->
+
+                    <!-- Mobile nav toggle-->
+                    <li class="nav-toggle">
+                        <button class="nav-toggle-btn main-btn icon-btn"><i class="fa fa-bars"></i></button>
+                    </li>
+                    <!-- / Mobile nav toggle -->
+                </ul>
+            </div>
+        </div>
+        <!-- header -->
+    </div>
+    <!-- container -->
+</header>
+<!-- /HEADER -->

@@ -14,28 +14,48 @@ from product.models import Category, CategoryLang, Comment, Images, Product, Var
 from product.forms import CommentForm
 
 
+def selectlanguage(request):
+    if request.method == 'POST':  # check post
+        cur_language = translation.get_language()
+        lasturl= request.META.get('HTTP_REFERER')
+        lang = request.POST['language']
+        translation.activate(lang)
+        request.session[translation.LANGUAGE_SESSION_KEY]=lang
+        #return HttpResponse(lang)
+        return HttpResponseRedirect(lang)
+
 def index(request):
     setting = Settings.objects.get(pk=1)
-    category = Category.objects.all()
-    products_slider = Product.objects.all().order_by('id')[:4] #first 4 product 
+    # category = Category.objects.all()
     products_latest = Product.objects.all().order_by('-id')[:4] # latest
+    # >>>>>>>>>>>>>>>> M U L T I   L A N G U G A E >>>>>> START
+    defaultlang = settings.LANGUAGE_CODE[0:2]
+    currentlang = request.LANGUAGE_CODE[0:2]
+
+    if defaultlang != currentlang:
+        setting = SettingLang.objects.get(lang=currentlang)
+        products_latest = Product.objects.raw(
+            'SELECT p.id,p.price, l.title, l.description,l.slug  '
+            'FROM product_product as p '
+            'LEFT JOIN product_productlang as l '
+            'ON p.id = l.product_id '
+            'WHERE  l.lang=%s ORDER BY p.id DESC LIMIT 4', [currentlang])
+
+    products_slider = Product.objects.all().order_by('id')[:4] #first 4 product 
     products_picked = Product.objects.all().order_by('?')[:4] # random 
-
     page = "index"
-
     context = {
         'setting': setting,
         'page': page,
-        'category': category,
+        # 'category': category,
         'products_slider': products_slider,
         'products_latest': products_latest,
         'products_picked': products_picked,
     }
     return render(request,'index.html',context)
 
-
 def about_us(request):
-    category = Category.objects.all()
+    # category = Category.objects.all()
     defaultlang = settings.LANGUAGE_CODE[0:2]
     currentlang = request.LANGUAGE_CODE[0:2]
     setting = Settings.objects.get(pk=1)
@@ -43,13 +63,13 @@ def about_us(request):
         setting = SettingLang.objects.get(lang=currentlang)
     context = {
         'setting': setting,
-        'category': category
+        # 'category': category
     }
     return render(request, 'about.html', context)
 
 def contact_us(request):
     currentlang = request.LANGUAGE_CODE[0:2]
-    category = Category.objects.all()
+    # category = Category.objects.all()
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -73,7 +93,7 @@ def contact_us(request):
     context = {
         'setting': setting,
         'form': form,
-        'category': category
+        # 'category': category
     }
     return render(request, 'contact.html', context)
 
@@ -90,7 +110,7 @@ def contact_us(request):
 
 
 def category_product(request,id,slug):
-    category = Category.objects.all()
+    # category = Category.objects.all()
     defaultlang = settings.LANGUAGE_CODE[0:2] # i get first two because it's to lang like --> en-US or fa-IR also in my table i define only 'en' or 'af'
     currentlang = request.LANGUAGE_CODE[0:2]
     catdata = Category.objects.get(pk=id)
@@ -109,7 +129,7 @@ def category_product(request,id,slug):
 
     context={
         'products': products,
-        'category':category,
+        # 'category':category,
         'catdata':catdata }
     return render(request,'category_products.html',context)
 
@@ -160,7 +180,7 @@ def product_detail(request, id, slug):
     defaultlang = settings.LANGUAGE_CODE[0:2] #en-EN
     currentlang = request.LANGUAGE_CODE[0:2]
     #category = categoryTree(0, '', currentlang)
-    category = Category.objects.all()
+    # category = Category.objects.all()
     product = Product.objects.get(pk=id)
 
     if defaultlang != currentlang:
@@ -185,7 +205,7 @@ def product_detail(request, id, slug):
     context = {
         'product': product,
         'images': images, 
-        'category': category,
+        # 'category': category,
         'comments': comments
     }
     if product.variant != "None":
@@ -253,10 +273,10 @@ def faq(request):
     else:
         faq = FAQ.objects.filter(status="True",lang=currentlang).order_by("ordernumber")
 
-    category = Category.objects.all() 
+    # category = Category.objects.all() 
     context = {
         'faq': faq,
-        'category': category
+        # 'category': category
     }
     return render(request, "faq.html", context)
 
@@ -279,14 +299,3 @@ def savelangcur(request):
     # data.currency_id = request.session['currency']
     # data.save()  # save data
     # return HttpResponseRedirect(lasturl)
-
-
-def selectlanguage(request):
-    if request.method == 'POST':  # check post
-        cur_language = translation.get_language()
-        lasturl= request.META.get('HTTP_REFERER')
-        lang = request.POST['language']
-        translation.activate(lang)
-        request.session[translation.LANGUAGE_SESSION_KEY]=lang
-        #return HttpResponse(lang)
-        return HttpResponseRedirect(lang)
